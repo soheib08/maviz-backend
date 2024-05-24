@@ -1,18 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IPaginationUrlRepository } from 'src/core/interfaces/IPaginationUrl-repository';
+import { IPaginationUrlRepository } from 'src/core/interfaces/repository/IPaginationUrl-repository';
 import { PaginationUrl } from 'src/data/schemas/pagination-url.schema';
 
 @Injectable()
-export class PaginationUrlRepository
-  implements IPaginationUrlRepository
-{
+export class PaginationUrlRepository implements IPaginationUrlRepository {
   constructor(
     @InjectModel(PaginationUrl.name)
     private paginationUrlModel: Model<PaginationUrl>,
   ) {}
-  async createOne(entity: PaginationUrl):Promise<PaginationUrl> {
+  async createOne(entity: PaginationUrl): Promise<PaginationUrl> {
     const createdEntity = new this.paginationUrlModel(entity);
     return createdEntity.save();
   }

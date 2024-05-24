@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IMovieUrlRepository } from 'src/core/interfaces/IMovieUrl-repository';
+import { IMovieUrlRepository } from 'src/core/interfaces/repository/IMovieUrl-repository';
 import { MovieUrl } from 'src/data/schemas/movie-url.schema';
 
 @Injectable()
@@ -27,7 +27,7 @@ export class MovieUrlRepository implements IMovieUrlRepository {
   }
 
   async updateOne(id: string, movieUrl: Partial<MovieUrl>) {
-     await this.movieUrlModel.updateOne(
+    await this.movieUrlModel.updateOne(
       {
         url: id,
       },

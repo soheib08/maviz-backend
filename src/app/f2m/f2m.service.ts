@@ -1,9 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { IMovieUrlRepository } from 'src/core/interfaces/IMovieUrl-repository';
-import { IPaginationUrlRepository } from 'src/core/interfaces/IPaginationUrl-repository';
-import { ISiteRepository } from 'src/core/interfaces/ISite-repository';
 import { ICrawler } from 'src/core/interfaces/crawler.interface';
 import { MovieUrl } from 'src/core/models/movie-url';
 import { PaginationUrl } from 'src/core/models/pagination-url';
@@ -12,7 +9,10 @@ import { F2MDataExtractor } from './f2m-data-extractor.service';
 import { F2MUrl } from './f2m.constants';
 import { MovieUrlDto } from 'src/core/dto/movie-url.dto';
 import { RawMovie } from 'src/core/models/raw-movie';
-import { IRawMovieRepository } from 'src/core/interfaces/IRawMovie-repository';
+import { ISiteRepository } from 'src/core/interfaces/repository/ISite-repository';
+import { IPaginationUrlRepository } from 'src/core/interfaces/repository/IPaginationUrl-repository';
+import { IMovieUrlRepository } from 'src/core/interfaces/repository/IMovieUrl-repository';
+import { IRawMovieRepository } from 'src/core/interfaces/repository/IRawMovie-repository';
 
 @Injectable()
 export class F2MService implements OnModuleInit, ICrawler {

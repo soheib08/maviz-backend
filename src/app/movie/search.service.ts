@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { IMovieRepository } from 'src/core/interfaces/IMovie-repository';
+import { IMovieRepository } from 'src/core/interfaces/repository/IMovie-repository';
 import { Movie } from 'src/core/models/movie';
 
 @Injectable()

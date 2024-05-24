@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateSiteDto } from 'src/core/dto/create-site.dto';
-import { ISiteRepository } from 'src/core/interfaces/ISite-repository';
+import { ISiteRepository } from 'src/core/interfaces/repository/ISite-repository';
 import { Site } from 'src/data/schemas/site.schema';
 
 @Injectable()
-export class SiteRepository   implements ISiteRepository {
+export class SiteRepository implements ISiteRepository {
   constructor(@InjectModel(Site.name) private siteModel: Model<Site>) {}
   async createOne(entity: CreateSiteDto) {
     const createdEntity = new this.siteModel(entity);
@@ -19,10 +19,10 @@ export class SiteRepository   implements ISiteRepository {
 
   async findOne(url: string) {
     return await this.siteModel.findOne({
-        url,
+      url,
     });
   }
-  async updateOne(id: string, updatedEntityDto:Partial< Site>) {
+  async updateOne(id: string, updatedEntityDto: Partial<Site>) {
     return await this.siteModel.updateOne(
       {
         _id: id,

@@ -1,4 +1,4 @@
-import { MovieUrl } from '../models/movie-url';
+import { MovieUrl } from 'src/core/models/movie-url';
 import { IGenericRepository } from './generic-repository';
 
 export interface IMovieUrlRepository extends IGenericRepository<MovieUrl> {
@@ -12,4 +12,4 @@ export interface IMovieUrlRepository extends IGenericRepository<MovieUrl> {
 
   deleteOne(id: string): void;
 }
-export const IMovieUrlRepository = Symbol("IMovieUrlRepository");
+export const IMovieUrlRepository = Symbol('IMovieUrlRepository');

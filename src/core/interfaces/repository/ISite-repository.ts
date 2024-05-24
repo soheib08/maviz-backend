@@ -1,4 +1,4 @@
-import { Site } from '../models/site';
+import { Site } from 'src/core/models/site';
 import { IGenericRepository } from './generic-repository';
 
 export interface ISiteRepository extends IGenericRepository<Site> {
@@ -12,4 +12,4 @@ export interface ISiteRepository extends IGenericRepository<Site> {
 
   deleteOne(id: string): void;
 }
-export const ISiteRepository = Symbol("ISiteRepository");
+export const ISiteRepository = Symbol('ISiteRepository');

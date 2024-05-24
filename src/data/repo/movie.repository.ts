@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IMovieRepository } from 'src/core/interfaces/IMovie-repository';
+import { IMovieRepository } from 'src/core/interfaces/repository/IMovie-repository';
 import { Movie } from 'src/data/schemas/movie.schema';
 
 @Injectable()
 export class MovieRepository implements IMovieRepository {
   constructor(@InjectModel(Movie.name) private movieModel: Model<Movie>) {}
-  
+
   async createOne(entity: Movie) {
     const createdEntity = new this.movieModel(entity);
     return createdEntity.save();

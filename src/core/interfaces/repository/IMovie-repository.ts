@@ -1,4 +1,4 @@
-import { Movie } from '../models/movie';
+import { Movie } from 'src/core/models/movie';
 import { IGenericRepository } from './generic-repository';
 
 export interface IMovieRepository extends IGenericRepository<Movie> {
@@ -11,6 +11,5 @@ export interface IMovieRepository extends IGenericRepository<Movie> {
   find(): Promise<Movie[]>;
 
   deleteOne(id: string): void;
-  
 }
-export const IMovieRepository = Symbol("IMovieRepository");
+export const IMovieRepository = Symbol('IMovieRepository');

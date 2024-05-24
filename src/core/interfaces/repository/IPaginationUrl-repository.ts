@@ -1,4 +1,4 @@
-import { PaginationUrl } from '../models/pagination-url';
+import { PaginationUrl } from 'src/core/models/pagination-url';
 import { IGenericRepository } from './generic-repository';
 
 export interface IPaginationUrlRepository
@@ -14,4 +14,4 @@ export interface IPaginationUrlRepository
   deleteOne(id: string): void;
 }
 
-export const IPaginationUrlRepository = Symbol("IPaginationUrlRepository");
+export const IPaginationUrlRepository = Symbol('IPaginationUrlRepository');

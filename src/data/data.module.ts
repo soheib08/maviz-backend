@@ -11,16 +11,16 @@ import { SiteRepository } from './repo/site.repository';
 import { PaginationUrlRepository } from './repo/pagination-url.repository';
 import { MovieUrlRepository } from './repo/movie-url.repository';
 import { MovieRepository } from './repo/movie.repository';
-import { IMovieRepository } from 'src/core/interfaces/IMovie-repository';
-import { IMovieUrlRepository } from 'src/core/interfaces/IMovieUrl-repository';
-import { ISiteRepository } from 'src/core/interfaces/ISite-repository';
-import { IPaginationUrlRepository } from 'src/core/interfaces/IPaginationUrl-repository';
-import { IRawMovieRepository } from 'src/core/interfaces/IRawMovie-repository';
 import { RawMovieRepository } from './repo/raw-movie.repository';
 import { RawMovie, RawMovieSchema } from './schemas/raw-movie.schema';
 import { User, UserSchema } from './schemas/user.schema';
-import { IUserRepository } from 'src/core/interfaces/user-repository.interface';
 import { UserRepository } from './repo/user.repository';
+import { IUserRepository } from 'src/core/interfaces/repository/user-repository.interface';
+import { IRawMovieRepository } from 'src/core/interfaces/repository/IRawMovie-repository';
+import { IMovieRepository } from 'src/core/interfaces/repository/IMovie-repository';
+import { IMovieUrlRepository } from 'src/core/interfaces/repository/IMovieUrl-repository';
+import { IPaginationUrlRepository } from 'src/core/interfaces/repository/IPaginationUrl-repository';
+import { ISiteRepository } from 'src/core/interfaces/repository/ISite-repository';
 
 @Module({
   imports: [
