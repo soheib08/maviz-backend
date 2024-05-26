@@ -17,9 +17,9 @@ export class SiteRepository implements ISiteRepository {
     return await this.siteModel.find().lean();
   }
 
-  async findOne(url: string) {
+  async findOne(name: string) {
     return await this.siteModel.findOne({
-      url,
+      name,
     });
   }
   async updateOne(id: string, updatedEntityDto: Partial<Site>) {

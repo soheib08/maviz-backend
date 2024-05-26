@@ -1,5 +1,5 @@
 export interface IDataExtractor {
-  getSitePaginationUrlList(): Array<string>;
+  getPaginationUrlList(): Array<string>;
   getPaginationUrlMovieList(): Array<string>;
   getMovieTitle(): string;
   getMovieGenres(): Array<string>;
