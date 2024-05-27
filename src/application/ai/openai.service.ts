@@ -2,13 +2,11 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { log } from 'console';
 import OpenAI from 'openai';
+import { ChatCompletionCreateParams } from 'openai/resources';
 
 export class QuestionQuery {
-  systemRules: Array<string>;
   history: Array<ChatMessage>;
-  message: string;
-  userPreData?: Array<string>;
-  userHistory?: {};
+  message: ChatMessage;
 }
 
 export interface ChatMessage {
@@ -23,30 +21,28 @@ export class OpenAiService implements OnModuleInit {
   openAiClient: OpenAI;
   private readonly logger = new Logger(OpenAiService.name);
   constructor(private httpService: HttpService) {
-    this.apiKey = 'sk-proj-03ahWkys8OKRQyzvJdDYT3BlbkFJlNtvaM26yNndaYhDWVzx';
+    this.apiKey = 'sk-proj-IbzB5akiSKOnqooewdC3T3BlbkFJTLNR1zJx2zT9GCLGkb08';
     this.openAiClient = new OpenAI({
       apiKey: this.apiKey,
     });
   }
   onModuleInit() {
-    this.askQuestion({ history: [], message: 'hi chatgpt', systemRules: [] });
+    // this.askQuestion({
+    //   history: [{ role: 'assistant', content: 'act like your super funny' }],
+    //   message: { role: 'user', content: 'hi chatgpt' },
+    // });
   }
 
   async askQuestion(request: QuestionQuery) {
-    const systemRules = request.systemRules.map((element) => {
-      return { role: 'system', content: element };
-    });
-    let message = { role: 'user', content: request.message };
-
-    const messages = systemRules.concat(request.history);
-    messages.push(message);
     try {
       log('on send request');
+      request.history.push(request.message);
       let res = await this.openAiClient.chat.completions.create({
-        messages: [{ role: 'system', content: message.content }],
+        messages: request.history as any,
         model: 'gpt-3.5-turbo',
       });
-      log(res);
+      log(res.choices[0].message);
+      return res.choices[0].message;
     } catch (err) {
       console.log(err);
     }

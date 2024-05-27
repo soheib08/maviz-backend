@@ -12,6 +12,7 @@ import { RawMovieCreatedListener } from './events/rawmovie-added.event';
 import { F2MJobsService } from './services/f2m-jobs.service';
 import { MovieQueueConsumer } from './consumers/f2m-movie-consumer.service';
 import { UrlQueueConsumer } from './consumers/f2m-url-consumer.service';
+import { GeminiService } from '../ai/gemini.service';
 
 @Module({
   imports: [

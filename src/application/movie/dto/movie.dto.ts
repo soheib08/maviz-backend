@@ -1,5 +1,5 @@
 import { Movie } from 'src/core/models/movie';
-import { RawMovie } from 'src/core/models/raw-movie';
+import { RawMovie } from 'src/core/models/crawler/raw-movie';
 
 export class CreateMovieDto {
   id: string;
@@ -18,20 +18,19 @@ export class CreateMovieDto {
   rotten_score: string;
   video_links: Array<string>;
 
-  constructor(rawMovie:RawMovie){
-    this.name = this.cleanMovieName(rawMovie.name)
-    this.description = rawMovie.description
-    this.languages = rawMovie.languages
-    this.qualities = rawMovie.qualities
-    this.countries = rawMovie.countries
-    this.stars = rawMovie.stars
-    this.genre = rawMovie.genre
-    this.images = rawMovie.images
-    this.date = rawMovie.date
-    this.imdb_score = rawMovie.imdb_score
-    this.rotten_score = rawMovie.rotten_score
-    this.video_links = rawMovie.video_links
-
+  constructor(rawMovie: RawMovie) {
+    this.name = this.cleanMovieName(rawMovie.name);
+    this.description = rawMovie.description;
+    this.languages = rawMovie.languages;
+    this.qualities = rawMovie.qualities;
+    this.countries = rawMovie.countries;
+    this.stars = rawMovie.stars;
+    this.genre = rawMovie.genre;
+    this.images = rawMovie.images;
+    this.date = rawMovie.date;
+    this.imdb_score = rawMovie.imdb_score;
+    this.rotten_score = rawMovie.rotten_score;
+    this.video_links = rawMovie.video_links;
   }
 
   cleanMovieName(name: string) {
@@ -48,6 +47,6 @@ export class CreateMovieDto {
   createMovieInstance() {
     let movie = new Movie();
     movie = { ...this };
-    return movie
+    return movie;
   }
 }

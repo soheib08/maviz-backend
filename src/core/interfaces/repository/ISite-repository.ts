@@ -1,4 +1,4 @@
-import { Site } from 'src/core/models/site';
+import { Site } from 'src/core/models/crawler/site';
 import { IGenericRepository } from './generic-repository';
 
 export interface ISiteRepository extends IGenericRepository<Site> {

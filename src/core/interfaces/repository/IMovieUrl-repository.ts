@@ -1,4 +1,4 @@
-import { MovieUrl } from 'src/core/models/movie-url';
+import { MovieUrl } from 'src/core/models/crawler/movie-url';
 import { IGenericRepository } from './generic-repository';
 
 export interface IMovieUrlRepository extends IGenericRepository<MovieUrl> {

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { RawMovie } from 'src/core/models/raw-movie';
+import { RawMovie } from 'src/core/models/crawler/raw-movie';
 import { IRawMovieRepository } from 'src/core/interfaces/repository/IRawMovie-repository';
 
 export class RawMovieCreatedEvent {

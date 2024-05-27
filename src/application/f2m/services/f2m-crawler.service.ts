@@ -1,10 +1,9 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { ICrawler } from 'src/core/interfaces/crawler.interface';
-import { MovieUrl } from 'src/core/models/movie-url';
 import { F2MDataExtractor } from './f2m-data-extractor.service';
 import { MovieUrlDto } from 'src/core/dto/movie-url.dto';
-import { RawMovie } from 'src/core/models/raw-movie';
+import { RawMovie } from 'src/core/models/crawler/raw-movie';
 
 @Injectable()
 export class F2MCrawler implements ICrawler {

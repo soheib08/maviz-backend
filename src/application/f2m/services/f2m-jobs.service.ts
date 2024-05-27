@@ -7,8 +7,8 @@ import { InjectQueue } from '@nestjs/bull';
 import { IPaginationUrlRepository } from 'src/core/interfaces/repository/IPaginationUrl-repository';
 import { ISiteRepository } from 'src/core/interfaces/repository/ISite-repository';
 import { F2MUrl } from '../constants/f2m.constants';
-import { Site } from 'src/core/models/site';
-import { PaginationUrl } from 'src/core/models/pagination-url';
+import { Site } from 'src/core/models/crawler/site';
+import { PaginationUrl } from 'src/core/models/crawler/pagination-url';
 
 @Injectable()
 export class F2MJobsService {
@@ -34,13 +34,13 @@ export class F2MJobsService {
   //   );
   // }
 
-  @Cron(CronExpression.EVERY_SECOND)
-  async getMoviesDataJob() {
-    this.logger.debug('start crawl from movie urls...');
-    let foundMovieLinks = await this.movieUrlRepository.find();
+  // @Cron(CronExpression.EVERY_10_MINUTES)
+  // async getMoviesDataJob() {
+  //   this.logger.debug('start crawl from movie urls...');
+  //   let foundMovieLinks = await this.movieUrlRepository.find();
 
-    foundMovieLinks.forEach((element) => this.addMovieToQueue(element.url));
-  }
+  //   foundMovieLinks.forEach((element) => this.addMovieToQueue(element.url));
+  // }
 
   private async addUrlToQueue(url: string, site: string) {
     await this.urlQueue.add('processUrl', { url, site });

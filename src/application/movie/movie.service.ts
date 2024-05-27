@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 
-import { RawMovie } from 'src/core/models/raw-movie';
+import { RawMovie } from 'src/core/models/crawler/raw-movie';
 import { CreateMovieDto } from './dto/movie.dto';
 import { IMovieRepository } from 'src/core/interfaces/repository/IMovie-repository';
 import { IRawMovieRepository } from 'src/core/interfaces/repository/IRawMovie-repository';

@@ -3,7 +3,7 @@ import { DataModule } from './data/data.module';
 import { F2mModule } from './application/f2m/f2m.module';
 import { MovieModule } from './application/movie/movie.module';
 import { TelegramBotModule } from './application/bot/bot.module';
-import { OpenAiModule } from './application/openai/openai.module';
+import { AiModule } from './application/ai/ai.module';
 import { BullModule } from '@nestjs/bull';
 
 @Module({
@@ -15,7 +15,7 @@ import { BullModule } from '@nestjs/bull';
         port: 6379,
       },
     }),
-    //OpenAiModule,
+    AiModule,
     //TelegramBotModule,
     F2mModule,
     // MovieModule,
