@@ -11,6 +11,8 @@ export interface IPaginationUrlRepository
 
   find(): Promise<PaginationUrl[]>;
 
+  findBySite(site: string): Promise<PaginationUrl[]>;
+
   deleteOne(id: string): void;
 }
 

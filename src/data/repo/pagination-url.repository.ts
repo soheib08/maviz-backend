@@ -18,6 +18,9 @@ export class PaginationUrlRepository implements IPaginationUrlRepository {
   async find(): Promise<Array<PaginationUrl>> {
     return await this.paginationUrlModel.find({}).lean();
   }
+  async findBySite(site: string): Promise<Array<PaginationUrl>> {
+    return await this.paginationUrlModel.find({ site });
+  }
 
   async findOne(url: string): Promise<PaginationUrl> {
     return await this.paginationUrlModel.findOne({
