@@ -1,11 +1,11 @@
 import { MovieUrlDto } from 'src/core/dto/movie-url.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { ISiteRepository } from 'src/core/interfaces/repository/ISite-repository';
-import { IPaginationUrlRepository } from 'src/core/interfaces/repository/IPaginationUrl-repository';
 import { PaginationUrl } from 'src/core/models/crawler/pagination-url';
-import { IMovieUrlRepository } from 'src/core/interfaces/repository/IMovieUrl-repository';
 import { MovieUrl } from 'src/core/models/crawler/movie-url';
+import { ISiteRepository } from 'src/core/interfaces/repository/crawler/ISite-repository';
+import { IPaginationUrlRepository } from 'src/core/interfaces/repository/crawler/IPaginationUrl-repository';
+import { IMovieUrlRepository } from 'src/core/interfaces/repository/crawler/IMovieUrl-repository';
 
 export class PaginationUrlCreatedEvent {
   constructor(

@@ -1,26 +1,26 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Site, SiteSchema } from './schemas/site.schema';
+import { Site, SiteSchema } from './schemas/crawler/site.schema';
 import {
   PaginationUrl,
   PaginationUrlSchema,
-} from './schemas/pagination-url.schema';
-import { MovieUrl, MovieUrlSchema } from './schemas/movie-url.schema';
+} from './schemas/crawler/pagination-url.schema';
+import { MovieUrl, MovieUrlSchema } from './schemas/crawler/movie-url.schema';
 import { Movie, MovieSchema } from './schemas/movie.schema';
-import { SiteRepository } from './repo/site.repository';
-import { PaginationUrlRepository } from './repo/pagination-url.repository';
-import { MovieUrlRepository } from './repo/movie-url.repository';
+import { SiteRepository } from './repo/crawler/site.repository';
+import { PaginationUrlRepository } from './repo/crawler/pagination-url.repository';
+import { MovieUrlRepository } from './repo/crawler/movie-url.repository';
 import { MovieRepository } from './repo/movie.repository';
-import { RawMovieRepository } from './repo/raw-movie.repository';
-import { RawMovie, RawMovieSchema } from './schemas/raw-movie.schema';
+import { RawMovieRepository } from './repo/crawler/raw-movie.repository';
+import { RawMovie, RawMovieSchema } from './schemas/crawler/raw-movie.schema';
 import { User, UserSchema } from './schemas/user.schema';
 import { UserRepository } from './repo/user.repository';
 import { IUserRepository } from 'src/core/interfaces/repository/user-repository.interface';
-import { IRawMovieRepository } from 'src/core/interfaces/repository/IRawMovie-repository';
 import { IMovieRepository } from 'src/core/interfaces/repository/IMovie-repository';
-import { IMovieUrlRepository } from 'src/core/interfaces/repository/IMovieUrl-repository';
-import { IPaginationUrlRepository } from 'src/core/interfaces/repository/IPaginationUrl-repository';
-import { ISiteRepository } from 'src/core/interfaces/repository/ISite-repository';
+import { IRawMovieRepository } from 'src/core/interfaces/repository/crawler/IRawMovie-repository';
+import { IMovieUrlRepository } from 'src/core/interfaces/repository/crawler/IMovieUrl-repository';
+import { IPaginationUrlRepository } from 'src/core/interfaces/repository/crawler/IPaginationUrl-repository';
+import { ISiteRepository } from 'src/core/interfaces/repository/crawler/ISite-repository';
 
 @Module({
   imports: [

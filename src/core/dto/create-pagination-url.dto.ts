@@ -1,6 +1,6 @@
-import { Site } from "src/data/schemas/site.schema"
+import { Site } from 'src/data/schemas/crawler/site.schema';
 
-export class CreatePaginationUrlDto{
-    url: string
-    site: Site
+export class CreatePaginationUrlDto {
+  url: string;
+  site: Site;
 }

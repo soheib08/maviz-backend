@@ -2,10 +2,11 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ZarFilmDataExtractor } from './zarfilm-data-extractor.service';
 import { MovieUrlDto } from 'src/core/dto/movie-url.dto';
+import { RawMovie } from 'src/data/schemas/crawler/raw-movie.schema';
 
 @Injectable()
-export class ZarFilmService implements OnModuleInit {
-  private readonly logger = new Logger(ZarFilmService.name);
+export class ZarFilmCrawlerService implements OnModuleInit {
+  private readonly logger = new Logger(ZarFilmCrawlerService.name);
   constructor(private readonly httpService: HttpService) {}
 
   async onModuleInit() {
@@ -41,5 +42,61 @@ export class ZarFilmService implements OnModuleInit {
     } catch (err) {
       console.log('error in get request', err);
     }
+  }
+
+  async getMovieInformation(movieUrl: string) {
+    let movie = new RawMovie();
+    const data = await this.getUrlData(movieUrl);
+    let dataExtractor = new ZarFilmDataExtractor(data);
+
+    //get movie name
+    movie.name = dataExtractor.getMovieTitle();
+
+    //get movie genres
+    movie.genre = dataExtractor.getMovieGenres();
+
+    //get scores
+    movie.imdb_score = dataExtractor.getMovieIMScore();
+
+    movie.rotten_score = dataExtractor.getMovieRottenScore();
+
+    //get movie language
+    movie.languages = dataExtractor.getMovieLanguages();
+
+    //qualities
+    movie.qualities = dataExtractor.getMovieQualities();
+
+    //get countries
+    movie.countries = dataExtractor.getMovieCountries();
+
+    //get stars
+    movie.stars = dataExtractor.getMovieStars();
+
+    //get directors
+    movie.directors = dataExtractor.getMovieDirectors();
+
+    //get posters
+    movie.images = dataExtractor.getMoviePosters();
+
+    //get download links
+    movie.download_links = dataExtractor.getMovieDownloadLinks();
+
+    //get movie description
+    movie.description = dataExtractor.getMovieDescription();
+
+    //get movie date
+    movie.date = dataExtractor.getMovieDate();
+
+    //get video links
+    movie.video_links = dataExtractor.getMovieVideoLinks();
+
+    return movie;
+  }
+
+  async crawlMovieUrl(movieUrl: string): Promise<RawMovie> {
+    // let movie = await this.getMovieInformation(movieUrl);
+    // return movie;
+
+    return new RawMovie();
   }
 }

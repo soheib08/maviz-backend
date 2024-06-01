@@ -1,14 +1,12 @@
-import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
-import { F2MCrawler } from './f2m-crawler.service';
-import { IMovieUrlRepository } from 'src/core/interfaces/repository/IMovieUrl-repository';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Queue } from 'bull';
 import { InjectQueue } from '@nestjs/bull';
-import { IPaginationUrlRepository } from 'src/core/interfaces/repository/IPaginationUrl-repository';
-import { ISiteRepository } from 'src/core/interfaces/repository/ISite-repository';
 import { F2MUrl } from '../constants/f2m.constants';
 import { Site } from 'src/core/models/crawler/site';
 import { PaginationUrl } from 'src/core/models/crawler/pagination-url';
+import { IMovieUrlRepository } from 'src/core/interfaces/repository/crawler/IMovieUrl-repository';
+import { IPaginationUrlRepository } from 'src/core/interfaces/repository/crawler/IPaginationUrl-repository';
+import { ISiteRepository } from 'src/core/interfaces/repository/crawler/ISite-repository';
 
 @Injectable()
 export class F2MJobsService {
@@ -28,7 +26,7 @@ export class F2MJobsService {
   //   this.logger.debug('start crawling f2m...');
   //   let foundSite = await this.getSiteData();
   //   let paginationUrlsToProcess = await this.getUnvisitedPaginationUrls();
-
+  // paginationUrlsToProcess = paginationUrlsToProcess.slice(0, 20);
   //   paginationUrlsToProcess.forEach((element) =>
   //     this.addUrlToQueue(element.url, foundSite.name),
   //   );

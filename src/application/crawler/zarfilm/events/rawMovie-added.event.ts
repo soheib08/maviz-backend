@@ -4,7 +4,7 @@ import { IRawMovieRepository } from 'src/core/interfaces/repository/crawler/IRaw
 import { RawMovie } from 'src/core/models/crawler/raw-movie';
 
 export class RawMovieCreatedEvent {
-  constructor(public rawMovie: RawMovie) {}
+  constructor(public rawMovie: RawMovie, public movieUrl: string) {}
 }
 
 @Injectable()
@@ -14,8 +14,13 @@ export class RawMovieCreatedListener {
     private rawMovieRepository: IRawMovieRepository,
   ) {}
   @OnEvent('rawMovie.created')
-  async handleOrderCreatedEvent(event: RawMovieCreatedEvent) {
-    let foundMovie = await this.rawMovieRepository.findOne(event.rawMovie.name);
+  async handleRawMovieCreatedEvent(event: RawMovieCreatedEvent) {
+    let foundMovie = await this.rawMovieRepository.findOneByPaginationUrl(
+      event.rawMovie.name,
+      event.movieUrl,
+    );
+    console.log('=========raw movie status: ', !!foundMovie);
+    event.rawMovie.base_url = event.movieUrl;
     if (!foundMovie) await this.rawMovieRepository.createOne(event.rawMovie);
   }
 }

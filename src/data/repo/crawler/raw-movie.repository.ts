@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { RawMovie } from '../schemas/raw-movie.schema';
-import { IMovieRepository } from 'src/core/interfaces/repository/IMovie-repository';
+import { RawMovie } from '../../schemas/crawler/raw-movie.schema';
+import { IRawMovieRepository } from 'src/core/interfaces/repository/crawler/IRawMovie-repository';
 
 @Injectable()
-export class RawMovieRepository implements IMovieRepository {
+export class RawMovieRepository implements IRawMovieRepository {
   constructor(
     @InjectModel(RawMovie.name) private rawMovieModel: Model<RawMovie>,
   ) {}
@@ -22,6 +22,16 @@ export class RawMovieRepository implements IMovieRepository {
   async findOne(name: string) {
     return await this.rawMovieModel.findOne({
       name: name,
+    });
+  }
+
+  async findOneByPaginationUrl(
+    name: string,
+    movie_url: string,
+  ): Promise<RawMovie> {
+    return await this.rawMovieModel.findOne({
+      name: name,
+      base_url: movie_url,
     });
   }
 

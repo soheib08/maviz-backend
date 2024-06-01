@@ -15,4 +15,5 @@ export class RawMovie {
   rotten_score: string;
   video_links: Array<string>;
   is_checked: boolean;
+  base_url: string;
 }

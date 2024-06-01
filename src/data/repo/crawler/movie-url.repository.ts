@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IMovieUrlRepository } from 'src/core/interfaces/repository/IMovieUrl-repository';
-import { MovieUrl } from 'src/data/schemas/movie-url.schema';
+import { IMovieUrlRepository } from 'src/core/interfaces/repository/crawler/IMovieUrl-repository';
+import { MovieUrl } from 'src/data/schemas/crawler/movie-url.schema';
 
 @Injectable()
 export class MovieUrlRepository implements IMovieUrlRepository {

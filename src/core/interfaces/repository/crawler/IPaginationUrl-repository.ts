@@ -1,5 +1,5 @@
 import { PaginationUrl } from 'src/core/models/crawler/pagination-url';
-import { IGenericRepository } from './generic-repository';
+import { IGenericRepository } from '../generic-repository';
 
 export interface IPaginationUrlRepository
   extends IGenericRepository<PaginationUrl> {
@@ -7,7 +7,7 @@ export interface IPaginationUrlRepository
 
   createOne(entity: PaginationUrl): Promise<PaginationUrl>;
 
-  updateOne(id: string, entity: PaginationUrl): void;
+  updateOne(id: string, entity: Partial<PaginationUrl>): void;
 
   find(): Promise<PaginationUrl[]>;
 

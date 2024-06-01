@@ -1,11 +1,11 @@
 import { MovieUrlDto } from 'src/core/dto/movie-url.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { ISiteRepository } from 'src/core/interfaces/repository/ISite-repository';
-import { IPaginationUrlRepository } from 'src/core/interfaces/repository/IPaginationUrl-repository';
 import { PaginationUrl } from 'src/core/models/crawler/pagination-url';
-import { IMovieUrlRepository } from 'src/core/interfaces/repository/IMovieUrl-repository';
 import { MovieUrl } from 'src/core/models/crawler/movie-url';
+import { ISiteRepository } from 'src/core/interfaces/repository/crawler/ISite-repository';
+import { IPaginationUrlRepository } from 'src/core/interfaces/repository/crawler/IPaginationUrl-repository';
+import { IMovieUrlRepository } from 'src/core/interfaces/repository/crawler/IMovieUrl-repository';
 
 export class PaginationUrlCreatedEvent {
   constructor(
@@ -25,14 +25,14 @@ export class PaginationUrlCreatedListener {
     private movieUrlRepository: IMovieUrlRepository,
   ) {}
   @OnEvent('paginationUrl.created')
-  async handleOrderCreatedEvent(event: PaginationUrlCreatedEvent) {
+  async handlePaginationUrlCreatedEvent(event: PaginationUrlCreatedEvent) {
     for await (const paginationItem of event.paginationUrls) {
       let foundPaginationUrl = await this.paginationUrlRepository.findOne(
         paginationItem,
       );
       if (!foundPaginationUrl) {
         let foundSite = await this.siteRepository.findOne(event.site);
-        let newUrl = new PaginationUrl(paginationItem, foundSite.id, false);
+        let newUrl = new PaginationUrl(paginationItem, foundSite['_id'], false);
         foundPaginationUrl = await this.paginationUrlRepository.createOne(
           newUrl,
         );
@@ -45,10 +45,16 @@ export class PaginationUrlCreatedListener {
       );
       if (!isUrlExists) {
         await this.movieUrlRepository.createOne(
-          new MovieUrl(movieUrlItem.url, foundPaginationUrl.id),
+          new MovieUrl(movieUrlItem.url, foundPaginationUrl['_id']),
         );
       }
     }
-    console.log('saved');
+    await this.paginationUrlRepository.updateOne(
+      event.movieUrls[0].pagination_url,
+      {
+        is_visited: true,
+      },
+    );
+    console.log('pagination url saved');
   }
 }

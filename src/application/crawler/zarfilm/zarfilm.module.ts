@@ -5,11 +5,14 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { DataModule } from 'src/data/data.module';
 import { BullModule } from '@nestjs/bull';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { ZarFilmService } from './zarfilm-crawler.service';
+import { ZarFilmCrawlerService } from './zarfilm-crawler.service';
 import { ZarFilmDataExtractor } from './zarfilm-data-extractor.service';
 import { UrlQueueConsumer } from './consumers/zarfilm-url-consumer.service';
 import { ZarFilmJobsService } from './zarfilm.jobs.service';
 import { PaginationUrlCreatedListener } from './events/paginationUrl-added.event';
+import { MovieQueueConsumer } from './consumers/zarfilm-movieUrl-consumer.service';
+import { RawMovieCreatedListener } from './events/rawMovie-added.event';
+import { MovieUrlUpdatedEventListener } from './events/movieUrl-updated.event';
 
 @Module({
   imports: [
@@ -19,9 +22,17 @@ import { PaginationUrlCreatedListener } from './events/paginationUrl-added.event
     ScheduleModule.forRoot(),
     BullModule.registerQueue({
       name: 'ZarUrlQueue',
+      defaultJobOptions: {
+        removeOnComplete: true,
+        removeOnFail: true,
+      },
     }),
     BullModule.registerQueue({
       name: 'ZarMovieQueue',
+      defaultJobOptions: {
+        removeOnComplete: true,
+        removeOnFail: true,
+      },
     }),
     EventEmitterModule.forRoot(),
   ],
@@ -32,10 +43,13 @@ import { PaginationUrlCreatedListener } from './events/paginationUrl-added.event
     // RawMovieCreatedListener,
     // MovieQueueConsumer,
     // F2MJobsService,
-    ZarFilmService,
+    ZarFilmCrawlerService,
     UrlQueueConsumer,
-    ZarFilmJobsService,
+    MovieQueueConsumer,
     PaginationUrlCreatedListener,
+    RawMovieCreatedListener,
+    MovieUrlUpdatedEventListener,
+    ZarFilmJobsService,
   ],
 })
 export class ZarFilmModule {}

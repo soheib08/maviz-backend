@@ -1,5 +1,5 @@
 import { MovieUrl } from 'src/core/models/crawler/movie-url';
-import { IGenericRepository } from './generic-repository';
+import { IGenericRepository } from '../generic-repository';
 
 export interface IMovieUrlRepository extends IGenericRepository<MovieUrl> {
   findOne(id: string): Promise<MovieUrl>;

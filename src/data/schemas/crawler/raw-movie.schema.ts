@@ -51,7 +51,10 @@ export class RawMovie {
   video_links: Array<string>;
 
   @Prop()
-  is_checked: boolean
+  is_checked: boolean;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'MovieUrl' })
+  base_url: string;
 }
 
 export const RawMovieSchema = SchemaFactory.createForClass(RawMovie);

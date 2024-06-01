@@ -1,13 +1,12 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { IMovieUrlRepository } from 'src/core/interfaces/repository/IMovieUrl-repository';
 import { Queue } from 'bull';
 import { InjectQueue } from '@nestjs/bull';
-import { IPaginationUrlRepository } from 'src/core/interfaces/repository/IPaginationUrl-repository';
-import { ISiteRepository } from 'src/core/interfaces/repository/ISite-repository';
 import { Site } from 'src/core/models/crawler/site';
 import { PaginationUrl } from 'src/core/models/crawler/pagination-url';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { is } from 'cheerio/lib/api/traversing';
+import { IPaginationUrlRepository } from 'src/core/interfaces/repository/crawler/IPaginationUrl-repository';
+import { IMovieUrlRepository } from 'src/core/interfaces/repository/crawler/IMovieUrl-repository';
+import { ISiteRepository } from 'src/core/interfaces/repository/crawler/ISite-repository';
 
 @Injectable()
 export class ZarFilmJobsService {
@@ -22,34 +21,38 @@ export class ZarFilmJobsService {
     @InjectQueue('ZarMovieQueue') private movieQueue: Queue,
   ) {}
 
-  @Cron(CronExpression.EVERY_MINUTE)
-  async siteIndexJob() {
-    this.logger.debug('start crawling zarfilm.com ...');
-    let foundSite = await this.getSiteData();
-    let paginationUrlsToProcess = await this.getUnvisitedPaginationUrls(
-      foundSite['_id'],
-    );
-    console.log(paginationUrlsToProcess);
-
-    paginationUrlsToProcess.forEach((element) =>
-      this.addUrlToQueue(element.url, foundSite.name),
-    );
-  }
-
-  // @Cron(CronExpression.EVERY_10_MINUTES)
-  // async getMoviesDataJob() {
-  //   this.logger.debug('start crawl from movie urls...');
-  //   let foundMovieLinks = await this.movieUrlRepository.find();
-
-  //   foundMovieLinks.forEach((element) => this.addMovieToQueue(element.url));
+  // @Cron(CronExpression.EVERY_MINUTE)
+  // async siteIndexJob() {
+  //   this.logger.debug('start crawling zarfilm.com ...');
+  //   let foundSite = await this.getSiteData();
+  //   let paginationUrlsToProcess = await this.getUnvisitedPaginationUrls(
+  //     foundSite['_id'],
+  //   );
+  //   paginationUrlsToProcess = paginationUrlsToProcess.slice(0, 20);
+  //   paginationUrlsToProcess.forEach((element) =>
+  //     this.addUrlToQueue(element.url, foundSite.name),
+  //   );
   // }
+
+  @Cron(CronExpression.EVERY_MINUTE)
+  async getMoviesDataJob() {
+    this.logger.debug('start crawl from movie urls...');
+    let foundMovieLinks = await this.movieUrlRepository.find();
+
+    console.log('job links: ', foundMovieLinks.length);
+
+    foundMovieLinks = foundMovieLinks.slice(0, 20);
+    foundMovieLinks.forEach((element) => {
+      this.addMovieToQueue(element.url, element['_id']);
+    });
+  }
 
   private async addUrlToQueue(url: string, site: string) {
     await this.urlQueue.add('processUrl', { url, site });
   }
 
-  private async addMovieToQueue(url: string) {
-    await this.movieQueue.add('processMovie', { url });
+  private async addMovieToQueue(url: string, movie_url: string) {
+    await this.movieQueue.add('processMovie', { url, movie_url });
   }
 
   private async getUnvisitedPaginationUrls(site: string) {
