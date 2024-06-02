@@ -17,6 +17,8 @@ export class MovieQueueConsumer {
     console.log('joooooob', data.movie_url);
 
     const movie = await this.zarFilmCrawler.crawlMovieUrl(data.url);
+    console.log('extracted movie :', movie);
+
     this.eventEmitter.emit(
       'rawMovie.created',
       new RawMovieCreatedEvent(movie, data.movie_url),

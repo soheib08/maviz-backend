@@ -44,33 +44,18 @@ export class ZarFilmDataExtractor implements IDataExtractor {
   }
 
   getMovieIMScore(): string {
-    let movieImdbScore = '';
-    this.$('.imdb_row  strong').each((index, element) => {
-      movieImdbScore = this.$(element).html();
-    });
+    const ratingElement = this.$('.item.imdb .top strong');
+    const rating = ratingElement.text().trim();
 
-    return movieImdbScore;
+    return rating;
   }
 
   getMovieRottenScore(): string {
-    // let rottenTitle = '';
-    // this.$('.meta_row .pt-1').each((index, element) => {
-    //   rottenTitle = this.$(element).html();
-    // });
-
-    // return rottenTitle;
-
     return '';
   }
 
   getMovieLanguages(): string[] {
-    let movieLanguages = new Array<string>();
-    this.$('location ').each((index, element) => {
-      let movieLang = this.$(element).html();
-      movieLanguages.push(movieLang);
-    });
-
-    return movieLanguages;
+    return [];
   }
 
   getMovieQualities(): string[] {
@@ -94,31 +79,45 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieStars(): string[] {
     let stars = new Array<string>();
-    this.$('.single_casts a').each((index, element) => {
-      let starItem = this.$(element).html();
-      stars.push(starItem);
-    });
+    this.$('.stars').each((_, element) => {
+      const label = this.$(element).find('.label span').text().trim();
 
+      if (label.includes('ستارگان')) {
+        this.$(element)
+          .find('.list .item a')
+          .each((_, star) => {
+            stars.push(this.$(star).text().trim());
+          });
+      }
+    });
     return stars;
   }
 
   getMovieDirectors(): string[] {
     let movieDirectors = new Array<string>();
-    this.$('.m-director  .val').each((index, element) => {
-      let director = this.$(element).html();
-      movieDirectors.push(director);
+    this.$('.stars').each((_, element) => {
+      const label = this.$(element).find('.label span').text().trim();
+      if (label.includes('کارگردان')) {
+        this.$(element)
+          .find('.list .item a')
+          .each((_, director) => {
+            movieDirectors.push(this.$(director).text().trim());
+          });
+      }
     });
-
     return movieDirectors;
   }
 
   getMoviePosters(): string[] {
     let moviePosters = new Array<string>();
-    this.$('.cover_holder  img').each((index, element) => {
-      let foundSrc = element.attributes.find((attr) => {
-        return attr.name === 'src';
-      });
-      moviePosters.push(foundSrc.value);
+    this.$('.cover_holder img').each((_, element) => {
+      const srcset =
+        this.$(element).attr('data-lazy-srcset') ||
+        this.$(element).attr('srcset');
+      if (srcset) {
+        const urls = srcset.split(',').map((src) => src.trim().split(' ')[0]);
+        moviePosters.push(...urls.filter((src) => src.endsWith('.jpg')));
+      }
     });
 
     return moviePosters;
@@ -150,19 +149,18 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieDate(): string {
     let movieDate = '';
-    this.$('profile_add').each((index, element) => {
-      movieDate = this.$(element).attr('datetime');
-    });
+    const regex: RegExp = /\b\d{4}\b/;
+    const matchResult: RegExpMatchArray | null =
+      this.getMovieTitle().match(regex);
 
+    if (matchResult) {
+      movieDate = matchResult[0];
+    }
     return movieDate;
   }
 
   getMovieVideoLinks(): string[] {
     let videoLinks = new Array<string>();
-    // this.$('source').each((index, element) => {
-    //   let videoLink = this.$(element).attr('src');
-    //   videoLinks.push(videoLink);
-    // });
 
     return videoLinks;
   }

@@ -94,9 +94,7 @@ export class ZarFilmCrawlerService implements OnModuleInit {
   }
 
   async crawlMovieUrl(movieUrl: string): Promise<RawMovie> {
-    // let movie = await this.getMovieInformation(movieUrl);
-    // return movie;
-
-    return new RawMovie();
+    let movie = await this.getMovieInformation(movieUrl);
+    return movie;
   }
 }

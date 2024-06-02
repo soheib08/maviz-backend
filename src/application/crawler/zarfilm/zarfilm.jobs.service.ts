@@ -41,7 +41,7 @@ export class ZarFilmJobsService {
 
     console.log('job links: ', foundMovieLinks.length);
 
-    foundMovieLinks = foundMovieLinks.slice(0, 20);
+    foundMovieLinks = foundMovieLinks.slice(0, 1);
     foundMovieLinks.forEach((element) => {
       this.addMovieToQueue(element.url, element['_id']);
     });
