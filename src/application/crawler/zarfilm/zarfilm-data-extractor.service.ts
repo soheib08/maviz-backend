@@ -28,7 +28,7 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieTitle(): string {
     let movieTitle = '';
-    this.$('.m-title a').each((index, element) => {
+    this.$('.title_single .mobile').each((index, element) => {
       movieTitle = this.$(element).html();
     });
     return movieTitle;
@@ -36,7 +36,7 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieGenres(): string[] {
     let movieGenres = new Array<string>();
-    this.$('.m-genres  .val a').each((index, element) => {
+    this.$('.genres_holder_single h3 a').each((index, element) => {
       let genre = this.$(element).html();
       movieGenres.push(genre);
     });
@@ -45,7 +45,7 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieIMScore(): string {
     let movieImdbScore = '';
-    this.$('.imdb_row  .val').each((index, element) => {
+    this.$('.imdb_row  strong').each((index, element) => {
       movieImdbScore = this.$(element).html();
     });
 
@@ -53,17 +53,19 @@ export class ZarFilmDataExtractor implements IDataExtractor {
   }
 
   getMovieRottenScore(): string {
-    let rottenTitle = '';
-    this.$('.meta_row .pt-1').each((index, element) => {
-      rottenTitle = this.$(element).html();
-    });
+    // let rottenTitle = '';
+    // this.$('.meta_row .pt-1').each((index, element) => {
+    //   rottenTitle = this.$(element).html();
+    // });
 
-    return rottenTitle;
+    // return rottenTitle;
+
+    return '';
   }
 
   getMovieLanguages(): string[] {
     let movieLanguages = new Array<string>();
-    this.$('.m-lang  .val').each((index, element) => {
+    this.$('location ').each((index, element) => {
       let movieLang = this.$(element).html();
       movieLanguages.push(movieLang);
     });
@@ -73,26 +75,26 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieQualities(): string[] {
     let movieQualities = new Array<string>();
-    this.$('.m-quality  .val').each((index, element) => {
-      let qualityItem = this.$(element).html();
-      movieQualities.push(qualityItem);
-    });
+    // this.$('.m-quality  .val').each((index, element) => {
+    //   let qualityItem = this.$(element).html();
+    //   movieQualities.push(qualityItem);
+    // });
 
     return movieQualities;
   }
 
   getMovieCountries(): string[] {
     let countries = new Array<string>();
-    this.$('.m-country  .val').each((index, element) => {
-      let countryItem = this.$(element).html();
-      countries.push(countryItem);
-    });
+    // this.$('.m-country  .val').each((index, element) => {
+    //   let countryItem = this.$(element).html();
+    //   countries.push(countryItem);
+    // });
     return countries;
   }
 
   getMovieStars(): string[] {
     let stars = new Array<string>();
-    this.$('.m-stars  .val').each((index, element) => {
+    this.$('.single_casts a').each((index, element) => {
       let starItem = this.$(element).html();
       stars.push(starItem);
     });
@@ -112,7 +114,7 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMoviePosters(): string[] {
     let moviePosters = new Array<string>();
-    this.$('.movie .m_poster  img').each((index, element) => {
+    this.$('.cover_holder  img').each((index, element) => {
       let foundSrc = element.attributes.find((attr) => {
         return attr.name === 'src';
       });
@@ -124,9 +126,12 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieDownloadLinks(): string[] {
     let downloadLinks = new Array<string>();
-    this.$('.m-content a').each((index, element) => {
+    this.$('.item_dllink_box a').each((index, element) => {
       const movieDownloadUrl = this.$(element).attr('href');
-      if (movieDownloadUrl.includes('.mkv')) {
+      if (
+        movieDownloadUrl.includes('.mkv') ||
+        movieDownloadUrl.includes('.mp4')
+      ) {
         downloadLinks.push(movieDownloadUrl);
       }
     });
@@ -136,7 +141,7 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieDescription(): string {
     let movieDescription = '';
-    this.$('.m_plot  p').each((index, element) => {
+    this.$('.plot').each((index, element) => {
       movieDescription = this.$(element).html();
     });
 
@@ -145,7 +150,7 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieDate(): string {
     let movieDate = '';
-    this.$('.m-date  time').each((index, element) => {
+    this.$('profile_add').each((index, element) => {
       movieDate = this.$(element).attr('datetime');
     });
 
@@ -154,10 +159,10 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieVideoLinks(): string[] {
     let videoLinks = new Array<string>();
-    this.$('source').each((index, element) => {
-      let videoLink = this.$(element).attr('src');
-      videoLinks.push(videoLink);
-    });
+    // this.$('source').each((index, element) => {
+    //   let videoLink = this.$(element).attr('src');
+    //   videoLinks.push(videoLink);
+    // });
 
     return videoLinks;
   }
