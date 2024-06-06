@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
+import { MovieDownloadLink } from 'src/core/models/movie';
 
 export type MovieDocument = mongoose.HydratedDocument<Movie>;
 
@@ -36,7 +37,7 @@ export class Movie {
   images: Array<string>;
 
   @Prop()
-  download_links: Array<string>;
+  download_links: Array<MovieDownloadLink>;
 
   @Prop()
   date: string;

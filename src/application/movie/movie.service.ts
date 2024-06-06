@@ -1,10 +1,9 @@
 import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
 
 import { RawMovie } from 'src/core/models/crawler/raw-movie';
 import { CreateMovieDto } from './dto/movie.dto';
 import { IMovieRepository } from 'src/core/interfaces/repository/IMovie-repository';
-import { IRawMovieRepository } from 'src/core/interfaces/repository/crawler/IRawMovie-repository';
+import { Movie } from 'src/core/models/movie';
 
 @Injectable()
 export class MovieService implements OnModuleInit {
@@ -12,38 +11,46 @@ export class MovieService implements OnModuleInit {
   constructor(
     @Inject(IMovieRepository)
     private readonly movieRepository: IMovieRepository,
-    @Inject(IRawMovieRepository)
-    private readonly rawMovieRepository: IRawMovieRepository,
   ) {}
 
   async onModuleInit() {
     this.logger.debug('movie service registered');
   }
 
-  // @Cron(CronExpression.EVERY_HOUR)
-  // async importingMovies() {
-  //   this.logger.debug('import movie service job starting...');
-  //   let rawMovieList = await this.rawMovieRepository.find();
-  //   rawMovieList = rawMovieList.filter(
-  //     (element) => element.is_checked !== false,
-  //   );
-  //   for await (const rawMovie of rawMovieList) {
-  //     await this.importMovie(rawMovie);
-  //   }
-  //   this.logger.debug('done with importing movies...');
-  // }
-
   async importMovie(rawMovie: RawMovie) {
     let movieDto = new CreateMovieDto(rawMovie);
     let movie = movieDto.createMovieInstance();
     let movieList = await this.movieRepository.find();
-    let isMovieExists = movieList.find((element) => {
+    let existingMovie = movieList.find((element) => {
       return element.name === movie.name;
     });
-    if (!isMovieExists) {
+    if (!existingMovie) {
       await this.movieRepository.createOne(movie);
     } else {
-      this.logger.debug(`${movie.name} is already exists`);
+      await this.addDownloadLinks(movieDto, existingMovie);
+      await this.mergeMovies(existingMovie, movieDto);
     }
+  }
+
+  async addDownloadLinks(rawMovie: CreateMovieDto, existingMovie: Movie) {
+    existingMovie.download_links.push(...rawMovie.download_links);
+    await this.movieRepository.updateOne(existingMovie.id, existingMovie);
+  }
+
+  async mergeMovies(movie: Movie, rawMovie: CreateMovieDto) {
+    for (const key in rawMovie) {
+      if (
+        movie[key] === undefined ||
+        movie[key] === null ||
+        this.isEmptyArray(movie[key])
+      ) {
+        movie[key] = rawMovie[key];
+      }
+    }
+    await this.movieRepository.updateOne(movie.id, movie);
+  }
+
+  private isEmptyArray(arr: any[]): boolean {
+    return Array.isArray(arr) && arr.length === 0;
   }
 }

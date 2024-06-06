@@ -8,6 +8,6 @@ import { SearchService } from './search.service';
 @Module({
   imports: [DataModule, HttpModule, ScheduleModule.forRoot()],
   providers: [MovieService, SearchService],
-  exports: [SearchService],
+  exports: [SearchService, MovieService],
 })
 export class MovieModule {}

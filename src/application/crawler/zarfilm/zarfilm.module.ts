@@ -13,6 +13,7 @@ import { PaginationUrlCreatedListener } from './events/paginationUrl-added.event
 import { MovieQueueConsumer } from './consumers/zarfilm-movieUrl-consumer.service';
 import { RawMovieCreatedListener } from './events/rawMovie-added.event';
 import { MovieUrlUpdatedEventListener } from './events/movieUrl-updated.event';
+import { MovieModule } from 'src/application/movie/movie.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { MovieUrlUpdatedEventListener } from './events/movieUrl-updated.event';
       },
     }),
     EventEmitterModule.forRoot(),
+    MovieModule,
   ],
   providers: [
     // F2MCrawler,

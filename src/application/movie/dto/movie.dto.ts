@@ -1,4 +1,4 @@
-import { Movie } from 'src/core/models/movie';
+import { Movie, MovieDownloadLink } from 'src/core/models/movie';
 import { RawMovie } from 'src/core/models/crawler/raw-movie';
 
 export class CreateMovieDto {
@@ -12,7 +12,7 @@ export class CreateMovieDto {
   stars: Array<string>;
   directors: Array<string>;
   images: Array<string>;
-  download_links: Array<string>;
+  download_links: Array<MovieDownloadLink>;
   date: string;
   imdb_score: string;
   rotten_score: string;
@@ -25,12 +25,16 @@ export class CreateMovieDto {
     this.qualities = rawMovie.qualities;
     this.countries = rawMovie.countries;
     this.stars = rawMovie.stars;
+    this.directors = rawMovie.directors;
     this.genre = rawMovie.genre;
     this.images = rawMovie.images;
     this.date = rawMovie.date;
     this.imdb_score = rawMovie.imdb_score;
     this.rotten_score = rawMovie.rotten_score;
     this.video_links = rawMovie.video_links;
+    this.download_links = [
+      { links: rawMovie.download_links, source_id: rawMovie.id },
+    ];
   }
 
   cleanMovieName(name: string) {

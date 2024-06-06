@@ -34,18 +34,18 @@ export class ZarFilmJobsService {
   //   );
   // }
 
-  @Cron(CronExpression.EVERY_MINUTE)
-  async getMoviesDataJob() {
-    this.logger.debug('start crawl from movie urls...');
-    let foundMovieLinks = await this.movieUrlRepository.find();
+  // @Cron(CronExpression.EVERY_MINUTE)
+  // async getMoviesDataJob() {
+  //   this.logger.debug('start crawl from movie urls...');
+  //   let foundMovieLinks = await this.movieUrlRepository.find();
 
-    console.log('job links: ', foundMovieLinks.length);
+  //   console.log('job links: ', foundMovieLinks.length);
 
-    foundMovieLinks = foundMovieLinks.slice(0, 1);
-    foundMovieLinks.forEach((element) => {
-      this.addMovieToQueue(element.url, element['_id']);
-    });
-  }
+  //   foundMovieLinks = foundMovieLinks.slice(0, 1);
+  //   foundMovieLinks.forEach((element) => {
+  //     this.addMovieToQueue(element.url, element['_id']);
+  //   });
+  // }
 
   private async addUrlToQueue(url: string, site: string) {
     await this.urlQueue.add('processUrl', { url, site });

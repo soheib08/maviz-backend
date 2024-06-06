@@ -9,9 +9,14 @@ export class Movie {
   stars: Array<string>;
   directors: Array<string>;
   images: Array<string>;
-  download_links: Array<string>;
+  download_links: Array<MovieDownloadLink>;
   date: string;
   imdb_score: string;
   rotten_score: string;
   video_links: Array<string>;
+}
+
+export class MovieDownloadLink {
+  source_id: string;
+  links: Array<string>;
 }
