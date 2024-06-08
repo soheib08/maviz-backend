@@ -13,9 +13,16 @@ export class MovieQueueConsumer {
   ) {}
   @Process('processMovie')
   async extractMovieUrlData(job: Job<unknown>) {
-    const data = job.data as { url: string };
+    const data = job.data as { url: string; movie_url: string };
+    console.log('joooooob', data.movie_url);
+
     const movie = await this.f2mCrawler.crawlMovieUrl(data.url);
-    this.eventEmitter.emit('rawMovie.created', new RawMovieCreatedEvent(movie));
+    console.log('extracted movie :', movie);
+
+    this.eventEmitter.emit(
+      'rawMovie.created',
+      new RawMovieCreatedEvent(movie, data.movie_url),
+    );
     this.eventEmitter.emit(
       'movieUrl.updated',
       new MovieUrlUpdatedEvent(data.url),

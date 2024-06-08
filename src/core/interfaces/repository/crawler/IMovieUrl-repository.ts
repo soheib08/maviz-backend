@@ -10,6 +10,8 @@ export interface IMovieUrlRepository extends IGenericRepository<MovieUrl> {
 
   find(): Promise<MovieUrl[]>;
 
+  findBySite(site: string): Promise<MovieUrl[]>;
+
   deleteOne(id: string): void;
 }
 export const IMovieUrlRepository = Symbol('IMovieUrlRepository');

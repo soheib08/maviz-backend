@@ -42,15 +42,11 @@ export class MovieService implements OnModuleInit {
       if (
         movie[key] === undefined ||
         movie[key] === null ||
-        this.isEmptyArray(movie[key])
+        (Array.isArray(movie[key]) && movie[key].length === 0)
       ) {
         movie[key] = rawMovie[key];
       }
     }
     await this.movieRepository.updateOne(movie.id, movie);
-  }
-
-  private isEmptyArray(arr: any[]): boolean {
-    return Array.isArray(arr) && arr.length === 0;
   }
 }

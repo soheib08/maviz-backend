@@ -16,9 +16,9 @@ export class MovieUrl {
 
   @Prop({
     required: true,
-    default: false
+    default: false,
   })
-  is_visited: boolean
+  is_visited: boolean;
 
   @Prop()
   createdAt: Date;

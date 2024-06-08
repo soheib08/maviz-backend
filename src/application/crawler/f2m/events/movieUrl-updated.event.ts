@@ -14,6 +14,8 @@ export class MovieUrlUpdatedEventListener {
   ) {}
   @OnEvent('movieUrl.updated')
   async handleOrderCreatedEvent(event: MovieUrlUpdatedEvent) {
+    console.log('movie url updated', event.movieUrl);
+
     await this.movieUrlRepository.updateOne(event.movieUrl.toString(), {
       is_visited: true,
     });

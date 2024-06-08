@@ -20,6 +20,15 @@ export class MovieUrlRepository implements IMovieUrlRepository {
       .lean();
   }
 
+  async findBySite(site: string): Promise<Array<MovieUrl>> {
+    let res = await this.movieUrlModel
+      .find<MovieUrl>()
+      .populate('pagination_url')
+      .lean();
+    res = res.filter((item) => (item.pagination_url as any).site === site);
+    return res;
+  }
+
   async findOne(url: string) {
     return await this.movieUrlModel.findOne({
       url,

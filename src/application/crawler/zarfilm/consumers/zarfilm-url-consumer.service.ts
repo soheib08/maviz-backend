@@ -2,7 +2,7 @@ import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PaginationUrlCreatedEvent } from '../events/paginationUrl-added.event';
-import { ZarFilmCrawlerService } from '../zarfilm-crawler.service';
+import { ZarFilmCrawlerService } from '../services/zarfilm-crawler.service';
 
 @Processor('ZarUrlQueue')
 export class UrlQueueConsumer {

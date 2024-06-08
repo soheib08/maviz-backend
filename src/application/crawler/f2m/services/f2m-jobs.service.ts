@@ -7,6 +7,7 @@ import { PaginationUrl } from 'src/core/models/crawler/pagination-url';
 import { IMovieUrlRepository } from 'src/core/interfaces/repository/crawler/IMovieUrl-repository';
 import { IPaginationUrlRepository } from 'src/core/interfaces/repository/crawler/IPaginationUrl-repository';
 import { ISiteRepository } from 'src/core/interfaces/repository/crawler/ISite-repository';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class F2MJobsService {
@@ -21,35 +22,45 @@ export class F2MJobsService {
     @InjectQueue('movieQueue') private movieQueue: Queue,
   ) {}
 
-  // @Cron(CronExpression.EVERY_MINUTE)
-  // async siteIndexJob() {
-  //   this.logger.debug('start crawling f2m...');
-  //   let foundSite = await this.getSiteData();
-  //   let paginationUrlsToProcess = await this.getUnvisitedPaginationUrls();
-  // paginationUrlsToProcess = paginationUrlsToProcess.slice(0, 20);
-  //   paginationUrlsToProcess.forEach((element) =>
-  //     this.addUrlToQueue(element.url, foundSite.name),
-  //   );
-  // }
+  @Cron(CronExpression.EVERY_10_HOURS)
+  async siteIndexJob() {
+    this.logger.debug('start crawling f2m...');
+    let foundSite = await this.getSiteData();
+    let paginationUrlsToProcess = await this.getUnvisitedPaginationUrls(
+      foundSite['_id'],
+    );
+    paginationUrlsToProcess = paginationUrlsToProcess.slice(0, 20);
+    paginationUrlsToProcess.forEach((element) =>
+      this.addUrlToQueue(element.url, foundSite.name),
+    );
+  }
 
-  // @Cron(CronExpression.EVERY_10_MINUTES)
-  // async getMoviesDataJob() {
-  //   this.logger.debug('start crawl from movie urls...');
-  //   let foundMovieLinks = await this.movieUrlRepository.find();
+  @Cron(CronExpression.EVERY_10_MINUTES)
+  async getMoviesDataJob() {
+    this.logger.debug('start crawl from movie urls...');
+    let foundSite = await this.getSiteData();
+    let foundMovieLinks = await this.movieUrlRepository.findBySite(
+      foundSite['_id'],
+    );
 
-  //   foundMovieLinks.forEach((element) => this.addMovieToQueue(element.url));
-  // }
+    console.log('job links: ', foundMovieLinks.length);
+
+    foundMovieLinks = foundMovieLinks.slice(0, 1);
+    foundMovieLinks.forEach((element) => {
+      this.addMovieToQueue(element.url, element['_id']);
+    });
+  }
 
   private async addUrlToQueue(url: string, site: string) {
     await this.urlQueue.add('processUrl', { url, site });
   }
 
-  private async addMovieToQueue(url: string) {
-    await this.movieQueue.add('processMovie', { url });
+  private async addMovieToQueue(url: string, movie_url: string) {
+    await this.movieQueue.add('processMovie', { url, movie_url });
   }
 
-  private async getUnvisitedPaginationUrls() {
-    let unvisitedUrls = await this.paginationUrlRepository.find();
+  private async getUnvisitedPaginationUrls(site: string) {
+    let unvisitedUrls = await this.paginationUrlRepository.findBySite(site);
     return unvisitedUrls.filter((element) => {
       return element.is_visited === false;
     });

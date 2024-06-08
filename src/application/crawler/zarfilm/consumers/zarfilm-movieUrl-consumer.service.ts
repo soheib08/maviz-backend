@@ -1,7 +1,7 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { ZarFilmCrawlerService } from '../zarfilm-crawler.service';
+import { ZarFilmCrawlerService } from '../services/zarfilm-crawler.service';
 import { RawMovieCreatedEvent } from '../events/rawMovie-added.event';
 import { MovieUrlUpdatedEvent } from '../events/movieUrl-updated.event';
 

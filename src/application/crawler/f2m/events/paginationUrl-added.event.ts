@@ -45,9 +45,16 @@ export class PaginationUrlCreatedListener {
       );
       if (!isUrlExists) {
         await this.movieUrlRepository.createOne(
-          new MovieUrl(movieUrlItem.url, foundPaginationUrl.id),
+          new MovieUrl(movieUrlItem.url, foundPaginationUrl['_id']),
         );
       }
     }
+    await this.paginationUrlRepository.updateOne(
+      event.movieUrls[0].pagination_url,
+      {
+        is_visited: true,
+      },
+    );
+    console.log('pagination url saved');
   }
 }
