@@ -6,8 +6,8 @@ import { MovieUrlDto } from 'src/core/dto/movie-url.dto';
 import { RawMovie } from 'src/core/models/crawler/raw-movie';
 
 @Injectable()
-export class F2MCrawler implements ICrawler {
-  private readonly logger = new Logger(F2MCrawler.name);
+export class Crawler implements ICrawler {
+  private readonly logger = new Logger(Crawler.name);
   constructor(private readonly httpService: HttpService) {}
 
   async crawlPaginationUrl(currentPaginationUrl: string) {
