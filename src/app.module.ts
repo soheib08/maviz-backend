@@ -16,7 +16,6 @@ import { MovieModule } from './application/movie/movie.module';
     }),
     AiModule,
     //TelegramBotModule,
-    // F2mModule,
     MovieModule,
     CrawlerModule,
   ],

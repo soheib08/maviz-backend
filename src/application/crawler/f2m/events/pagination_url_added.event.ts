@@ -55,6 +55,6 @@ export class PaginationUrlCreatedListener {
         is_visited: true,
       },
     );
-    console.log('pagination url saved');
+    console.log('pagination url added');
   }
 }

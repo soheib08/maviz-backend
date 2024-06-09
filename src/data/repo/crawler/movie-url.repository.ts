@@ -25,7 +25,11 @@ export class MovieUrlRepository implements IMovieUrlRepository {
       .find<MovieUrl>({ $or: [{ is_visited: false }, { is_visited: null }] })
       .populate('pagination_url')
       .lean();
-    res = res.filter((item) => (item.pagination_url as any).site === site);
+
+    res = res.filter(
+      (item) =>
+        (item.pagination_url as any).site.toString() === site.toString(),
+    );
     return res;
   }
 

@@ -2,16 +2,16 @@ import { load, CheerioAPI } from 'cheerio';
 import { IDataExtractor } from 'src/core/interfaces/data-extractor.interface';
 
 export class F2MDataExtractor implements IDataExtractor {
-  $: CheerioAPI;
+  doc: CheerioAPI;
 
-  constructor(data: any) {
-    this.$ = load(data);
+  loadData(data: any): void {
+    this.doc = load(data);
   }
 
   getPaginationUrlList(): string[] {
     let paginationUrls = new Array<string>();
-    this.$('.page-number a').each((index, element) => {
-      paginationUrls.push(this.$(element).attr('href'));
+    this.doc('.page-number a').each((index, element) => {
+      paginationUrls.push(this.doc(element).attr('href'));
     });
     return paginationUrls;
   }
@@ -19,8 +19,8 @@ export class F2MDataExtractor implements IDataExtractor {
   getPaginationUrlMovieList(): string[] {
     let movieUrls = new Array<string>();
 
-    this.$('.m-helper  a').each((index, element) => {
-      const movieUrl = this.$(element).attr('href');
+    this.doc('.m-helper  a').each((index, element) => {
+      const movieUrl = this.doc(element).attr('href');
       movieUrls.push(movieUrl);
     });
     return movieUrls;
@@ -28,16 +28,16 @@ export class F2MDataExtractor implements IDataExtractor {
 
   getMovieTitle(): string {
     let movieTitle = '';
-    this.$('.m-title a').each((index, element) => {
-      movieTitle = this.$(element).html();
+    this.doc('.m-title a').each((index, element) => {
+      movieTitle = this.doc(element).html();
     });
     return movieTitle;
   }
 
   getMovieGenres(): string[] {
     let movieGenres = new Array<string>();
-    this.$('.m-genres  .val a').each((index, element) => {
-      let genre = this.$(element).html();
+    this.doc('.m-genres  .val a').each((index, element) => {
+      let genre = this.doc(element).html();
       movieGenres.push(genre);
     });
     return movieGenres;
@@ -45,8 +45,8 @@ export class F2MDataExtractor implements IDataExtractor {
 
   getMovieIMScore(): string {
     let movieImdbScore = '';
-    this.$('.imdb_row  .val').each((index, element) => {
-      movieImdbScore = this.$(element).html();
+    this.doc('.imdb_row  .val').each((index, element) => {
+      movieImdbScore = this.doc(element).html();
     });
 
     return movieImdbScore;
@@ -54,8 +54,8 @@ export class F2MDataExtractor implements IDataExtractor {
 
   getMovieRottenScore(): string {
     let rottenTitle = '';
-    this.$('.meta_row .pt-1').each((index, element) => {
-      rottenTitle = this.$(element).html();
+    this.doc('.meta_row .pt-1').each((index, element) => {
+      rottenTitle = this.doc(element).html();
     });
 
     return rottenTitle;
@@ -63,8 +63,8 @@ export class F2MDataExtractor implements IDataExtractor {
 
   getMovieLanguages(): string[] {
     let movieLanguages = new Array<string>();
-    this.$('.m-lang  .val').each((index, element) => {
-      let movieLang = this.$(element).html();
+    this.doc('.m-lang  .val').each((index, element) => {
+      let movieLang = this.doc(element).html();
       movieLanguages.push(movieLang);
     });
 
@@ -73,8 +73,8 @@ export class F2MDataExtractor implements IDataExtractor {
 
   getMovieQualities(): string[] {
     let movieQualities = new Array<string>();
-    this.$('.m-quality  .val').each((index, element) => {
-      let qualityItem = this.$(element).html();
+    this.doc('.m-quality  .val').each((index, element) => {
+      let qualityItem = this.doc(element).html();
       movieQualities.push(qualityItem);
     });
 
@@ -83,8 +83,8 @@ export class F2MDataExtractor implements IDataExtractor {
 
   getMovieCountries(): string[] {
     let countries = new Array<string>();
-    this.$('.m-country  .val').each((index, element) => {
-      let countryItem = this.$(element).html();
+    this.doc('.m-country  .val').each((index, element) => {
+      let countryItem = this.doc(element).html();
       countries.push(countryItem);
     });
     return countries;
@@ -92,8 +92,8 @@ export class F2MDataExtractor implements IDataExtractor {
 
   getMovieStars(): string[] {
     let stars = new Array<string>();
-    this.$('.m-stars  .val').each((index, element) => {
-      let starItem = this.$(element).html();
+    this.doc('.m-stars  .val').each((index, element) => {
+      let starItem = this.doc(element).html();
       stars.push(starItem);
     });
 
@@ -102,8 +102,8 @@ export class F2MDataExtractor implements IDataExtractor {
 
   getMovieDirectors(): string[] {
     let movieDirectors = new Array<string>();
-    this.$('.m-director  .val').each((index, element) => {
-      let director = this.$(element).html();
+    this.doc('.m-director  .val').each((index, element) => {
+      let director = this.doc(element).html();
       movieDirectors.push(director);
     });
 
@@ -112,7 +112,7 @@ export class F2MDataExtractor implements IDataExtractor {
 
   getMoviePosters(): string[] {
     let moviePosters = new Array<string>();
-    this.$('.movie .m_poster  img').each((index, element) => {
+    this.doc('.movie .m_poster  img').each((index, element) => {
       let foundSrc = element.attributes.find((attr) => {
         return attr.name === 'src';
       });
@@ -124,8 +124,8 @@ export class F2MDataExtractor implements IDataExtractor {
 
   getMovieDownloadLinks(): string[] {
     let downloadLinks = new Array<string>();
-    this.$('.m-content a').each((index, element) => {
-      const movieDownloadUrl = this.$(element).attr('href');
+    this.doc('.m-content a').each((index, element) => {
+      const movieDownloadUrl = this.doc(element).attr('href');
       if (movieDownloadUrl.includes('.mkv')) {
         downloadLinks.push(movieDownloadUrl);
       }
@@ -136,8 +136,8 @@ export class F2MDataExtractor implements IDataExtractor {
 
   getMovieDescription(): string {
     let movieDescription = '';
-    this.$('.m_plot  p').each((index, element) => {
-      movieDescription = this.$(element).html();
+    this.doc('.m_plot  p').each((index, element) => {
+      movieDescription = this.doc(element).html();
     });
 
     return movieDescription;
@@ -145,8 +145,8 @@ export class F2MDataExtractor implements IDataExtractor {
 
   getMovieDate(): string {
     let movieDate = '';
-    this.$('.m-date  time').each((index, element) => {
-      movieDate = this.$(element).attr('datetime');
+    this.doc('.m-date  time').each((index, element) => {
+      movieDate = this.doc(element).attr('datetime');
     });
 
     return movieDate;
@@ -154,8 +154,8 @@ export class F2MDataExtractor implements IDataExtractor {
 
   getMovieVideoLinks(): string[] {
     let videoLinks = new Array<string>();
-    this.$('source').each((index, element) => {
-      let videoLink = this.$(element).attr('src');
+    this.doc('source').each((index, element) => {
+      let videoLink = this.doc(element).attr('src');
       videoLinks.push(videoLink);
     });
 

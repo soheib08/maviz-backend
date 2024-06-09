@@ -26,6 +26,7 @@ export class MovieService implements OnModuleInit {
     });
     if (!existingMovie) {
       await this.movieRepository.createOne(movie);
+      console.log('raw movie created', movie.name);
     } else {
       await this.addDownloadLinks(movieDto, existingMovie);
       await this.mergeMovies(existingMovie, movieDto);

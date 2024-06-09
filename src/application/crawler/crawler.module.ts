@@ -15,7 +15,16 @@ import { Crawler } from './f2m/services/crawler.service';
 import { JobsService } from './f2m/services/jobs.service';
 import { ZarFilmJobsService } from './f2m/jobs/zar_film.service';
 import { MovieModule } from '../movie/movie.module';
+import { ZarFilmDataExtractor } from './f2m/services/zarfilm-data-extractor.service';
+import { F2MDataExtractor } from './f2m/services/f2m-data-extractor.service';
 
+export const eventHandlers = [
+  MovieUrlUpdatedEventListener,
+  PaginationUrlCreatedListener,
+  RawMovieCreatedListener,
+];
+
+export const queueConsumers = [MovieQueueConsumer, UrlQueueConsumer];
 @Module({
   imports: [
     DataModule,
@@ -35,12 +44,10 @@ import { MovieModule } from '../movie/movie.module';
     Crawler,
     JobsService,
     ZarFilmJobsService,
-    F2MJobsService,
-    MovieQueueConsumer,
-    UrlQueueConsumer,
-    MovieUrlUpdatedEventListener,
-    PaginationUrlCreatedListener,
-    RawMovieCreatedListener,
+    // F2MJobsService,
+    ...queueConsumers,
+    ...eventHandlers,
   ],
+  exports: [],
 })
 export class CrawlerModule {}

@@ -1,17 +1,19 @@
-import { load, CheerioAPI } from 'cheerio';
+import { CheerioAPI } from 'cheerio';
 import { IDataExtractor } from 'src/core/interfaces/data-extractor.interface';
+import { cheerio } from 'src/service/cheerio';
 
 export class ZarFilmDataExtractor implements IDataExtractor {
-  $: CheerioAPI;
+  doc: CheerioAPI;
+  constructor() {}
 
-  constructor(data: any) {
-    this.$ = load(data);
+  loadData(data: any): void {
+    this.doc = cheerio(data);
   }
 
   getPaginationUrlList(): string[] {
     let paginationUrls = new Array<string>();
-    this.$('.page-numbers').each((index, element) => {
-      paginationUrls.push(this.$(element).attr('href'));
+    this.doc('.page-numbers').each((index, element) => {
+      paginationUrls.push(this.doc(element).attr('href'));
     });
     return paginationUrls.filter((url) => url !== undefined) as string[];
   }
@@ -19,8 +21,8 @@ export class ZarFilmDataExtractor implements IDataExtractor {
   getPaginationUrlMovieList(): string[] {
     let movieUrls = new Array<string>();
 
-    this.$('.item_body_widget .bgbackitem').each((index, element) => {
-      const movieUrl = this.$(element).attr('href');
+    this.doc('.item_body_widget .bgbackitem').each((index, element) => {
+      const movieUrl = this.doc(element).attr('href');
       movieUrls.push(movieUrl);
     });
     return movieUrls;
@@ -28,23 +30,23 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieTitle(): string {
     let movieTitle = '';
-    this.$('.title_single .mobile').each((index, element) => {
-      movieTitle = this.$(element).html();
+    this.doc('.title_single .mobile').each((index, element) => {
+      movieTitle = this.doc(element).html();
     });
     return movieTitle;
   }
 
   getMovieGenres(): string[] {
     let movieGenres = new Array<string>();
-    this.$('.genres_holder_single h3 a').each((index, element) => {
-      let genre = this.$(element).html();
+    this.doc('.genres_holder_single h3 a').each((index, element) => {
+      let genre = this.doc(element).html();
       movieGenres.push(genre);
     });
     return movieGenres;
   }
 
   getMovieIMScore(): string {
-    const ratingElement = this.$('.item.imdb .top strong');
+    const ratingElement = this.doc('.item.imdb .top strong');
     const rating = ratingElement.text().trim();
 
     return rating;
@@ -60,8 +62,8 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieQualities(): string[] {
     let movieQualities = new Array<string>();
-    // this.$('.m-quality  .val').each((index, element) => {
-    //   let qualityItem = this.$(element).html();
+    // this.doc('.m-quality  .val').each((index, element) => {
+    //   let qualityItem = this.doc(element).html();
     //   movieQualities.push(qualityItem);
     // });
 
@@ -70,8 +72,8 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieCountries(): string[] {
     let countries = new Array<string>();
-    // this.$('.m-country  .val').each((index, element) => {
-    //   let countryItem = this.$(element).html();
+    // this.doc('.m-country  .val').each((index, element) => {
+    //   let countryItem = this.doc(element).html();
     //   countries.push(countryItem);
     // });
     return countries;
@@ -79,14 +81,14 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieStars(): string[] {
     let stars = new Array<string>();
-    this.$('.stars').each((_, element) => {
-      const label = this.$(element).find('.label span').text().trim();
+    this.doc('.stars').each((_, element) => {
+      const label = this.doc(element).find('.label span').text().trim();
 
       if (label.includes('ستارگان')) {
-        this.$(element)
+        this.doc(element)
           .find('.list .item a')
           .each((_, star) => {
-            stars.push(this.$(star).text().trim());
+            stars.push(this.doc(star).text().trim());
           });
       }
     });
@@ -95,13 +97,13 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieDirectors(): string[] {
     let movieDirectors = new Array<string>();
-    this.$('.stars').each((_, element) => {
-      const label = this.$(element).find('.label span').text().trim();
+    this.doc('.stars').each((_, element) => {
+      const label = this.doc(element).find('.label span').text().trim();
       if (label.includes('کارگردان')) {
-        this.$(element)
+        this.doc(element)
           .find('.list .item a')
           .each((_, director) => {
-            movieDirectors.push(this.$(director).text().trim());
+            movieDirectors.push(this.doc(director).text().trim());
           });
       }
     });
@@ -110,10 +112,10 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMoviePosters(): string[] {
     let moviePosters = new Array<string>();
-    this.$('.cover_holder img').each((_, element) => {
+    this.doc('.cover_holder img').each((_, element) => {
       const srcset =
-        this.$(element).attr('data-lazy-srcset') ||
-        this.$(element).attr('srcset');
+        this.doc(element).attr('data-lazy-srcset') ||
+        this.doc(element).attr('srcset');
       if (srcset) {
         const urls = srcset.split(',').map((src) => src.trim().split(' ')[0]);
         moviePosters.push(...urls.filter((src) => src.endsWith('.jpg')));
@@ -125,8 +127,8 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieDownloadLinks(): string[] {
     let downloadLinks = new Array<string>();
-    this.$('.item_dllink_box a').each((index, element) => {
-      const movieDownloadUrl = this.$(element).attr('href');
+    this.doc('.item_dllink_box a').each((index, element) => {
+      const movieDownloadUrl = this.doc(element).attr('href');
       if (
         movieDownloadUrl.includes('.mkv') ||
         movieDownloadUrl.includes('.mp4')
@@ -140,8 +142,8 @@ export class ZarFilmDataExtractor implements IDataExtractor {
 
   getMovieDescription(): string {
     let movieDescription = '';
-    this.$('.plot').each((index, element) => {
-      movieDescription = this.$(element).html();
+    this.doc('.plot').each((index, element) => {
+      movieDescription = this.doc(element).html();
     });
 
     return movieDescription;

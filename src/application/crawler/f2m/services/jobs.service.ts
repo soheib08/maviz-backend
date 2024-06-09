@@ -6,6 +6,10 @@ import { PaginationUrl } from 'src/core/models/crawler/pagination-url';
 import { IPaginationUrlRepository } from 'src/core/interfaces/repository/crawler/IPaginationUrl-repository';
 import { IMovieUrlRepository } from 'src/core/interfaces/repository/crawler/IMovieUrl-repository';
 import { ISiteRepository } from 'src/core/interfaces/repository/crawler/ISite-repository';
+import { IDataExtractor } from 'src/core/interfaces/data-extractor.interface';
+import { ZarFilmDataExtractor } from './zarfilm-data-extractor.service';
+import { F2MDataExtractor } from './f2m-data-extractor.service';
+import { F2MSiteName, ZarFilmSiteName } from '../constants/crawler_constants';
 
 @Injectable()
 export class JobsService {
@@ -25,6 +29,8 @@ export class JobsService {
     let paginationUrlsToProcess = await this.getPaginationUrls(
       foundSite['_id'],
     );
+    console.log(' pagination urls to process', paginationUrlsToProcess.length);
+
     paginationUrlsToProcess = paginationUrlsToProcess.slice(0, 20);
     paginationUrlsToProcess.forEach((element) =>
       this.addUrlToQueue(element.url, foundSite.name),
@@ -33,9 +39,13 @@ export class JobsService {
 
   async startMovieJob(site: string) {
     let foundSite = await this.getSiteData(site);
+    console.log(foundSite.name);
+
     const foundMovieLinks = await this.getMovieUrls(foundSite['_id']);
+    console.log(foundMovieLinks.length);
+
     foundMovieLinks.forEach((element) => {
-      this.addMovieToQueue(element.url, element['_id']);
+      this.addMovieToQueue(element.url, element['_id'], foundSite.name);
     });
   }
 
@@ -56,12 +66,23 @@ export class JobsService {
       .slice(0, 20);
   }
 
-  private async addUrlToQueue(url: string, site: string) {
-    await this.urlQueue.add('processUrl', { url, site });
+  private async addUrlToQueue(paginationUrl: string, site: string) {
+    await this.urlQueue.add('processUrl', {
+      url: paginationUrl,
+      site,
+    });
   }
 
-  private async addMovieToQueue(url: string, movie_url: string) {
-    await this.movieQueue.add('processMovie', { url, movie_url });
+  private async addMovieToQueue(
+    url: string,
+    movie_url: string,
+    extractor: string,
+  ) {
+    await this.movieQueue.add('processMovie', {
+      url,
+      movie_url,
+      extractor,
+    });
   }
 
   private async getSiteData(site: string, base_url: string = null) {
@@ -84,5 +105,11 @@ export class JobsService {
     }
 
     return foundSite;
+  }
+
+  getDataExtractor(extractor: string) {
+    if (extractor === ZarFilmSiteName) {
+      return new ZarFilmDataExtractor();
+    } else if (extractor === F2MSiteName) return new F2MDataExtractor();
   }
 }

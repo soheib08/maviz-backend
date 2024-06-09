@@ -1,22 +1,25 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { ICrawler } from 'src/core/interfaces/crawler.interface';
-import { F2MDataExtractor } from './f2m-data-extractor.service';
 import { MovieUrlDto } from 'src/core/dto/movie-url.dto';
 import { RawMovie } from 'src/core/models/crawler/raw-movie';
+import { IDataExtractor } from 'src/core/interfaces/data-extractor.interface';
 
 @Injectable()
 export class Crawler implements ICrawler {
   private readonly logger = new Logger(Crawler.name);
   constructor(private readonly httpService: HttpService) {}
 
-  async crawlPaginationUrl(currentPaginationUrl: string) {
+  async crawlPaginationUrl(
+    currentPaginationUrl: string,
+    dataExtractor: IDataExtractor,
+  ) {
     const movieUrls = new Array<MovieUrlDto>();
     let paginationUrls = new Array<string>();
     console.log('current paginate url', currentPaginationUrl);
     const data = await this.getUrlData(currentPaginationUrl);
+    dataExtractor.loadData(data);
 
-    const dataExtractor = new F2MDataExtractor(data);
     paginationUrls = dataExtractor.getPaginationUrlList();
     const movieUrlsList = dataExtractor.getPaginationUrlMovieList();
     movieUrlsList.forEach((movieUrl) => {
@@ -27,11 +30,10 @@ export class Crawler implements ICrawler {
     return { movieUrls, paginationUrls };
   }
 
-  async getMovieInformation(movieUrl: string) {
+  async getMovieInformation(movieUrl: string, dataExtractor: IDataExtractor) {
     let movie = new RawMovie();
     const data = await this.getUrlData(movieUrl);
-    let dataExtractor = new F2MDataExtractor(data);
-
+    dataExtractor.loadData(data);
     //get movie name
     movie.name = dataExtractor.getMovieTitle();
 
@@ -76,8 +78,11 @@ export class Crawler implements ICrawler {
     return movie;
   }
 
-  async crawlMovieUrl(movieUrl: string): Promise<RawMovie> {
-    let movie = await this.getMovieInformation(movieUrl);
+  async crawlMovieUrl(
+    movieUrl: string,
+    dataExtractor: IDataExtractor,
+  ): Promise<RawMovie> {
+    let movie = await this.getMovieInformation(movieUrl, dataExtractor);
     return movie;
   }
 

@@ -1,6 +1,8 @@
+import { IDataExtractor } from './data-extractor.interface';
+
 export interface ICrawler {
-  crawlPaginationUrl(url: string);
-  crawlMovieUrl(movieUrl: string);
+  crawlPaginationUrl(url: string, dataExtractor: IDataExtractor);
+  crawlMovieUrl(movieUrl: string, dataExtractor: IDataExtractor);
   getUrlData(url: string);
-  getMovieInformation(url: string);
+  getMovieInformation(url: string, dataExtractor: IDataExtractor);
 }

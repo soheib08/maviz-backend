@@ -3,27 +3,35 @@ import { Job } from 'bull';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PaginationUrlCreatedEvent } from '../events/pagination_url_added.event';
 import { Crawler } from '../services/crawler.service';
+import { IDataExtractor } from 'src/core/interfaces/data-extractor.interface';
+import { JobsService } from '../services/jobs.service';
 
 @Processor('urlQueue')
 export class UrlQueueConsumer {
   constructor(
     private readonly Crawler: Crawler,
     private eventEmitter: EventEmitter2,
+    private jobService: JobsService,
   ) {}
   @Process('processUrl')
   async extractPaginationUrlData(job: Job<unknown>) {
-    const data = job.data as { url: string; site: string };
+    const data = job.data as {
+      url: string;
+      site: string;
+    };
     try {
+      const dataExtractor: IDataExtractor = this.jobService.getDataExtractor(
+        data.site,
+      );
       const { movieUrls, paginationUrls } =
-        await this.Crawler.crawlPaginationUrl(data.url);
-      console.log('start extracting data from pagination url...');
+        await this.Crawler.crawlPaginationUrl(data.url, dataExtractor);
       this.eventEmitter.emit(
         'paginationUrl.created',
         new PaginationUrlCreatedEvent(paginationUrls, movieUrls, data.site),
       );
-      console.log('data of pagination url has been saved');
     } catch (err) {
       console.log('error on process pagination url');
+      console.log(err);
     }
   }
 }
