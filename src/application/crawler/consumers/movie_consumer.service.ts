@@ -1,11 +1,11 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { Crawler } from '../services/crawler.service';
+import { JobsService } from '../services/jobs.service';
+import { IDataExtractor } from 'src/core/interfaces/data-extractor.interface';
 import { RawMovieCreatedEvent } from '../events/raw_movie_added.event';
 import { MovieUrlUpdatedEvent } from '../events/movie_url_updated.event';
-import { Crawler } from '../services/crawler.service';
-import { IDataExtractor } from 'src/core/interfaces/data-extractor.interface';
-import { JobsService } from '../services/jobs.service';
 
 @Processor('movieQueue')
 export class MovieQueueConsumer {
@@ -26,6 +26,7 @@ export class MovieQueueConsumer {
       data.extractor,
     );
     const movie = await this.Crawler.crawlMovieUrl(data.url, dataExtractor);
+    movie.base_url = data.movie_url;
     this.eventEmitter.emit(
       'rawMovie.created',
       new RawMovieCreatedEvent(movie, data.movie_url),

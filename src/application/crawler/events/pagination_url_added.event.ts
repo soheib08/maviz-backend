@@ -32,21 +32,25 @@ export class PaginationUrlCreatedListener {
       );
       if (!foundPaginationUrl) {
         let foundSite = await this.siteRepository.findOne(event.site);
-        let newUrl = new PaginationUrl(paginationItem, foundSite.id, true);
+        let newUrl = new PaginationUrl(paginationItem, foundSite['_id'], true);
+        console.log('pagination url added: ', newUrl.url);
         foundPaginationUrl = await this.paginationUrlRepository.createOne(
           newUrl,
         );
       }
     }
     for await (const movieUrlItem of event.movieUrls) {
-      let isUrlExists = await this.movieUrlRepository.findOne(movieUrlItem.url);
-      let foundPaginationUrl = await this.paginationUrlRepository.findOne(
+      const isUrlExists = await this.movieUrlRepository.findOne(
+        movieUrlItem.url,
+      );
+      const foundPaginationUrl = await this.paginationUrlRepository.findOne(
         movieUrlItem.pagination_url,
       );
       if (!isUrlExists) {
-        await this.movieUrlRepository.createOne(
+        const movieUrl = await this.movieUrlRepository.createOne(
           new MovieUrl(movieUrlItem.url, foundPaginationUrl['_id']),
         );
+        console.log('movie url added: ', movieUrl.url);
       }
     }
     await this.paginationUrlRepository.updateOne(
@@ -55,6 +59,6 @@ export class PaginationUrlCreatedListener {
         is_visited: true,
       },
     );
-    console.log('pagination url added');
+    console.log('pagination url updated: ', event.movieUrls[0].pagination_url);
   }
 }

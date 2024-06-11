@@ -25,10 +25,13 @@ export class JobsService {
   ) {}
 
   async startSiteIndexJob(site: string, url: string) {
+    this.logger.log('start crawling site...');
+
     let foundSite = await this.getSiteData(site, url);
     let paginationUrlsToProcess = await this.getPaginationUrls(
       foundSite['_id'],
     );
+
     console.log(' pagination urls to process', paginationUrlsToProcess.length);
 
     paginationUrlsToProcess = paginationUrlsToProcess.slice(0, 20);
@@ -39,10 +42,10 @@ export class JobsService {
 
   async startMovieJob(site: string) {
     let foundSite = await this.getSiteData(site);
-    console.log(foundSite.name);
+    this.logger.log('start crawling movies...');
 
     const foundMovieLinks = await this.getMovieUrls(foundSite['_id']);
-    console.log(foundMovieLinks.length);
+    console.log('links to process:', foundMovieLinks.length);
 
     foundMovieLinks.forEach((element) => {
       this.addMovieToQueue(element.url, element['_id'], foundSite.name);
@@ -56,14 +59,19 @@ export class JobsService {
   }
 
   private async getPaginationUrls(site: string) {
-    let unvisitedUrls = await this.paginationUrlRepository.findBySite(site);
+    let urls = await this.paginationUrlRepository.findBySite(site);
     //return 20 url in each iterate
+    console.log('all urls: ', urls.length);
 
-    return unvisitedUrls
+    let filtered = urls
       .filter((element) => {
         return element.is_visited === false;
       })
       .slice(0, 20);
+
+    console.log('filtered urls to process: ', filtered.length);
+
+    return filtered.length > 0 ? filtered : [urls[0], urls[1]];
   }
 
   private async addUrlToQueue(paginationUrl: string, site: string) {

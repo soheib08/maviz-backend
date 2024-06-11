@@ -33,7 +33,7 @@ export class CreateMovieDto {
     this.rotten_score = rawMovie.rotten_score;
     this.video_links = rawMovie.video_links;
     this.download_links = [
-      { links: rawMovie.download_links, source_id: rawMovie.id },
+      { links: rawMovie.download_links, source_id: rawMovie['_id'] },
     ];
   }
 

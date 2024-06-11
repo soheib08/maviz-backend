@@ -19,7 +19,7 @@ export class PaginationUrlRepository implements IPaginationUrlRepository {
     return await this.paginationUrlModel.find({}).lean();
   }
   async findBySite(site: string): Promise<Array<PaginationUrl>> {
-    return await this.paginationUrlModel.find({ site });
+    return await this.paginationUrlModel.find({ site }).sort({ createdAt: -1 });
   }
 
   async findOne(url: string): Promise<PaginationUrl> {

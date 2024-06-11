@@ -24,11 +24,14 @@ export class RawMovieCreatedListener {
       event.rawMovie.name,
       event.movieUrl,
     );
-    console.log('raw movie status: ', !!foundRawMovie);
-    event.rawMovie.base_url = event.movieUrl;
-    if (!foundRawMovie) await this.rawMovieRepository.createOne(event.rawMovie);
-
-    const foundMovie = await this.movieRepository.findOne(event.rawMovie.name);
-    if (!foundMovie) await this.movieService.importMovie(event.rawMovie);
+    if (!foundRawMovie) {
+      foundRawMovie = await this.rawMovieRepository.createOne(event.rawMovie);
+      console.log(foundRawMovie.base_url);
+      console.log(event.rawMovie.name, 'raw movie created');
+      const foundMovie = await this.movieRepository.findOne(
+        event.rawMovie.name,
+      );
+      if (!foundMovie) await this.movieService.importMovie(foundRawMovie);
+    }
   }
 }

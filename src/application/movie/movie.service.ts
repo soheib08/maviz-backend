@@ -20,16 +20,23 @@ export class MovieService implements OnModuleInit {
   async importMovie(rawMovie: RawMovie) {
     let movieDto = new CreateMovieDto(rawMovie);
     let movie = movieDto.createMovieInstance();
+
     let movieList = await this.movieRepository.find();
     let existingMovie = movieList.find((element) => {
       return element.name === movie.name;
     });
-    if (!existingMovie) {
+    if (
+      !existingMovie ||
+      existingMovie?.download_links.find(
+        (element) => element.source_id.toString() !== rawMovie['_id'],
+      )
+    ) {
       await this.movieRepository.createOne(movie);
-      console.log('raw movie created', movie.name);
+      console.log('new movie created', movie.name);
     } else {
       await this.addDownloadLinks(movieDto, existingMovie);
       await this.mergeMovies(existingMovie, movieDto);
+      console.log(movie.name, 'is already exist and merged');
     }
   }
 
