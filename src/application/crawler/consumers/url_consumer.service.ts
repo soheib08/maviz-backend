@@ -18,6 +18,7 @@ export class UrlQueueConsumer {
     const data = job.data as {
       url: string;
       site: string;
+      headers: any;
     };
     try {
       const dataExtractor: IDataExtractor = this.jobService.getDataExtractor(

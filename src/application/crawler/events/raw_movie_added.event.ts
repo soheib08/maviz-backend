@@ -24,9 +24,10 @@ export class RawMovieCreatedListener {
       event.rawMovie.name,
       event.movieUrl,
     );
+    console.log(event.rawMovie.name, ' exists,', !!foundRawMovie);
+
     if (!foundRawMovie) {
       foundRawMovie = await this.rawMovieRepository.createOne(event.rawMovie);
-      console.log(foundRawMovie.base_url);
       console.log(event.rawMovie.name, 'raw movie created');
       const foundMovie = await this.movieRepository.findOne(
         event.rawMovie.name,

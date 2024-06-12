@@ -9,7 +9,12 @@ import { ISiteRepository } from 'src/core/interfaces/repository/crawler/ISite-re
 import { IDataExtractor } from 'src/core/interfaces/data-extractor.interface';
 import { ZarFilmDataExtractor } from './zarfilm-data-extractor.service';
 import { F2MDataExtractor } from './f2m-data-extractor.service';
-import { F2MSiteName, ZarFilmSiteName } from '../constants/crawler_constants';
+import {
+  DigiSiteName,
+  F2MSiteName,
+  ZarFilmSiteName,
+} from '../constants/crawler_constants';
+import { DigiDataExtractor } from './digi-data-extractor.service';
 
 @Injectable()
 export class JobsService {
@@ -24,7 +29,7 @@ export class JobsService {
     @InjectQueue('movieQueue') private movieQueue: Queue,
   ) {}
 
-  async startSiteIndexJob(site: string, url: string) {
+  async startSiteIndexJob(site: string, url: string, headers: any = null) {
     this.logger.log('start crawling site...');
 
     let foundSite = await this.getSiteData(site, url);
@@ -32,11 +37,11 @@ export class JobsService {
       foundSite['_id'],
     );
 
-    console.log(' pagination urls to process', paginationUrlsToProcess.length);
+    console.log('pagination urls to process', paginationUrlsToProcess.length);
 
     paginationUrlsToProcess = paginationUrlsToProcess.slice(0, 20);
     paginationUrlsToProcess.forEach((element) =>
-      this.addUrlToQueue(element.url, foundSite.name),
+      this.addUrlToQueue(element.url, foundSite.name, headers),
     );
   }
 
@@ -61,23 +66,24 @@ export class JobsService {
   private async getPaginationUrls(site: string) {
     let urls = await this.paginationUrlRepository.findBySite(site);
     //return 20 url in each iterate
-    console.log('all urls: ', urls.length);
-
     let filtered = urls
       .filter((element) => {
         return element.is_visited === false;
       })
       .slice(0, 20);
 
-    console.log('filtered urls to process: ', filtered.length);
-
     return filtered.length > 0 ? filtered : [urls[0], urls[1]];
   }
 
-  private async addUrlToQueue(paginationUrl: string, site: string) {
+  private async addUrlToQueue(
+    paginationUrl: string,
+    site: string,
+    headers: any,
+  ) {
     await this.urlQueue.add('processUrl', {
       url: paginationUrl,
       site,
+      headers,
     });
   }
 
@@ -119,5 +125,6 @@ export class JobsService {
     if (extractor === ZarFilmSiteName) {
       return new ZarFilmDataExtractor();
     } else if (extractor === F2MSiteName) return new F2MDataExtractor();
+    else if (extractor === DigiSiteName) return new DigiDataExtractor();
   }
 }
