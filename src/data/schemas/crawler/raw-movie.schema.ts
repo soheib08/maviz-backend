@@ -55,6 +55,9 @@ export class RawMovie {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'MovieUrl' })
   base_url: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Site' })
+  site: string;
 }
 
 export const RawMovieSchema = SchemaFactory.createForClass(RawMovie);

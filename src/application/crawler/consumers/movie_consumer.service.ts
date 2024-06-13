@@ -20,16 +20,20 @@ export class MovieQueueConsumer {
       url: string;
       movie_url: string;
       extractor: string;
+      site_id: string;
     };
 
     const dataExtractor: IDataExtractor = this.jobService.getDataExtractor(
       data.extractor,
     );
-    const movie = await this.Crawler.crawlMovieUrl(data.url, dataExtractor);
-    movie.base_url = data.movie_url;
+    const rawMovie = await this.Crawler.crawlMovieUrl(data.url, dataExtractor);
+    rawMovie.base_url = data.movie_url;
+    rawMovie.site = data.site_id;
+    console.log(rawMovie);
+
     this.eventEmitter.emit(
       'rawMovie.created',
-      new RawMovieCreatedEvent(movie, data.movie_url),
+      new RawMovieCreatedEvent(rawMovie, data.movie_url),
     );
     this.eventEmitter.emit(
       'movieUrl.updated',

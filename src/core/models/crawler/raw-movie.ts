@@ -16,4 +16,5 @@ export class RawMovie {
   video_links: Array<string>;
   is_checked: boolean;
   base_url: string;
+  site: string;
 }

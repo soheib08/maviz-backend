@@ -36,46 +36,46 @@ export class Crawler implements ICrawler {
     const data = await this.getUrlData(movieUrl);
     dataExtractor.loadData(data);
     //get movie name
-    // movie.name = dataExtractor.getMovieTitle();
+    movie.name = dataExtractor.getMovieTitle();
 
-    // //get movie genres
-    // movie.genre = dataExtractor.getMovieGenres();
+    //get movie genres
+    movie.genre = dataExtractor.getMovieGenres();
 
-    // //get scores
-    // movie.imdb_score = dataExtractor.getMovieIMScore();
+    //get scores
+    movie.imdb_score = dataExtractor.getMovieIMScore();
 
-    // movie.rotten_score = dataExtractor.getMovieRottenScore();
+    movie.rotten_score = dataExtractor.getMovieRottenScore();
 
-    // //get movie language
-    // movie.languages = dataExtractor.getMovieLanguages();
+    //get movie language
+    movie.languages = dataExtractor.getMovieLanguages();
 
-    // //qualities
-    // movie.qualities = dataExtractor.getMovieQualities();
+    //qualities
+    movie.qualities = dataExtractor.getMovieQualities();
 
-    // //get countries
-    // movie.countries = dataExtractor.getMovieCountries();
+    //get countries
+    movie.countries = dataExtractor.getMovieCountries();
 
-    // //get stars
-    // movie.stars = dataExtractor.getMovieStars();
+    //get stars
+    movie.stars = dataExtractor.getMovieStars();
 
-    // //get directors
-    // movie.directors = dataExtractor.getMovieDirectors();
+    //get directors
+    movie.directors = dataExtractor.getMovieDirectors();
 
-    // //get posters
-    // movie.images = dataExtractor.getMoviePosters();
+    //get posters
+    movie.images = dataExtractor.getMoviePosters();
 
-    // //get download links
+    //get download links
     movie.download_links = dataExtractor.getMovieDownloadLinks();
     console.log('links are: ======', movie.download_links);
 
-    // //get movie description
-    // movie.description = dataExtractor.getMovieDescription();
+    //get movie description
+    movie.description = dataExtractor.getMovieDescription();
 
-    // //get movie date
-    // movie.date = dataExtractor.getMovieDate();
+    //get movie date
+    movie.date = dataExtractor.getMovieDate();
 
-    // //get video links
-    // movie.video_links = dataExtractor.getMovieVideoLinks();
+    //get video links
+    movie.video_links = dataExtractor.getMovieVideoLinks();
 
     return movie;
   }

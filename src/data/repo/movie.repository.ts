@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import path from 'path';
 import { IMovieRepository } from 'src/core/interfaces/repository/IMovie-repository';
 import { Movie } from 'src/data/schemas/movie.schema';
 
@@ -14,7 +15,17 @@ export class MovieRepository implements IMovieRepository {
   }
 
   async find() {
-    return await this.movieModel.find().lean();
+    return await this.movieModel
+      .find()
+      .populate({
+        path: 'download_links.source_id',
+        populate: {
+          path: 'site',
+          model: 'Site',
+        },
+        model: 'RawMovie',
+      })
+      .lean();
   }
 
   async findOne(name: string) {

@@ -1,8 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { MovieDownloadLink } from 'src/core/models/movie';
 
 export type MovieDocument = mongoose.HydratedDocument<Movie>;
+@Schema()
+export class MovieDownloadLinkModel {
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'PaginationUrl' })
+  source_id: string;
+
+  @Prop()
+  links: Array<string>;
+}
+
+export const DownloadLinkSchema = SchemaFactory.createForClass(
+  MovieDownloadLinkModel,
+);
 
 @Schema({ id: true, timestamps: true })
 export class Movie {
@@ -36,8 +47,8 @@ export class Movie {
   @Prop()
   images: Array<string>;
 
-  @Prop()
-  download_links: Array<MovieDownloadLink>;
+  @Prop({ type: [DownloadLinkSchema] })
+  download_links: Array<MovieDownloadLinkModel>;
 
   @Prop()
   date: string;

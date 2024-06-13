@@ -26,15 +26,15 @@ export class DigiJobsService {
   constructor(private jobService: JobsService, private crawler: Crawler) {}
 
   //
-  @Cron(CronExpression.EVERY_10_MINUTES)
-  async siteIndexJob() {
-    this.logger.debug('start crawling digimoviz.com ...');
-    this.jobService.startSiteIndexJob(DigiSiteName, DigiBaseUrl, this.headers);
-  }
+  // @Cron(CronExpression.EVERY_10_MINUTES)
+  // async siteIndexJob() {
+  //   this.logger.debug('start crawling digimoviz.com ...');
+  //   this.jobService.startSiteIndexJob(DigiSiteName, DigiBaseUrl, this.headers);
+  // }
 
-  @Cron(CronExpression.EVERY_5_SECONDS)
-  async getMoviesDataJob() {
-    this.logger.debug('start crawl from movie urls from zarfilm.com ...');
-    this.jobService.startMovieJob(ZarFilmSiteName);
-  }
+  // @Cron(CronExpression.EVERY_10_MINUTES)
+  // async getMoviesDataJob() {
+  //   this.logger.debug('start crawl from movie urls from zarfilm.com ...');
+  //   this.jobService.startMovieJob(ZarFilmSiteName);
+  // }
 }

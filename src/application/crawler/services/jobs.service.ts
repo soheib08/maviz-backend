@@ -53,7 +53,12 @@ export class JobsService {
     console.log('links to process:', foundMovieLinks.length);
 
     foundMovieLinks.forEach((element) => {
-      this.addMovieToQueue(element.url, element['_id'], foundSite.name);
+      this.addMovieToQueue(
+        element.url,
+        element['_id'],
+        foundSite.name,
+        foundSite['_id'],
+      );
     });
   }
 
@@ -91,11 +96,13 @@ export class JobsService {
     url: string,
     movie_url: string,
     extractor: string,
+    siteId: string,
   ) {
     await this.movieQueue.add('processMovie', {
       url,
       movie_url,
       extractor,
+      site_id: siteId,
     });
   }
 

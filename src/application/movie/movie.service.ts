@@ -57,4 +57,8 @@ export class MovieService implements OnModuleInit {
     }
     await this.movieRepository.updateOne(movie.id, movie);
   }
+
+  async getMovies() {
+    return await this.movieRepository.find();
+  }
 }
