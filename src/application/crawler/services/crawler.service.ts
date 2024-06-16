@@ -40,42 +40,7 @@ export class Crawler implements ICrawler {
 
     //get movie genres
     movie.genre = dataExtractor.getMovieGenres();
-
-    //get scores
-    movie.imdb_score = dataExtractor.getMovieIMScore();
-
-    movie.rotten_score = dataExtractor.getMovieRottenScore();
-
-    //get movie language
-    movie.languages = dataExtractor.getMovieLanguages();
-
-    //qualities
-    movie.qualities = dataExtractor.getMovieQualities();
-
-    //get countries
-    movie.countries = dataExtractor.getMovieCountries();
-
-    //get stars
-    movie.stars = dataExtractor.getMovieStars();
-
-    //get directors
-    movie.directors = dataExtractor.getMovieDirectors();
-
-    //get posters
-    movie.images = dataExtractor.getMoviePosters();
-
-    //get download links
-    movie.download_links = dataExtractor.getMovieDownloadLinks();
-    console.log('links are: ======', movie.download_links);
-
-    //get movie description
-    movie.description = dataExtractor.getMovieDescription();
-
-    //get movie date
-    movie.date = dataExtractor.getMovieDate();
-
-    //get video links
-    movie.video_links = dataExtractor.getMovieVideoLinks();
+    console.log('done');
 
     return movie;
   }

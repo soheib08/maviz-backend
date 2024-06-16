@@ -1,6 +1,9 @@
 import { load, CheerioAPI } from 'cheerio';
 import { IDataExtractor } from 'src/core/interfaces/data-extractor.interface';
-
+interface MetaData {
+  label: string;
+  value: string;
+}
 export class DigiDataExtractor implements IDataExtractor {
   doc: CheerioAPI;
 
@@ -28,18 +31,59 @@ export class DigiDataExtractor implements IDataExtractor {
 
   getMovieTitle(): string {
     let movieTitle = '';
-    this.doc('.m-title a').each((index, element) => {
+    this.doc('.head_meta h1').each((index, element) => {
       movieTitle = this.doc(element).html();
     });
     return movieTitle;
   }
 
+  private getMetaFromAllMetaData(token: string): MetaData {
+    let data: MetaData[] = [];
+    this.doc('.meta_item li').each((index, element) => {
+      const labItem = this.doc(element).children('.lab_item').text().trim();
+      let resItemText = '';
+      //   console.log('lab', labItem);
+
+      const resItem = this.doc(element).children('.res_item');
+
+      if (resItem.length > 0) {
+        const resItemLinks = resItem.find('a');
+        if (resItemLinks.length > 0) {
+          resItemLinks.each((linkIndex, linkElement) => {
+            resItemText += this.doc(linkElement).text().trim() + ', ';
+          });
+          //   console.log('after', resItemText);
+
+          resItemText = resItemText.slice(0, -2); // Remove trailing comma and space
+          /// console.log('after2', resItemText);
+        } else {
+          resItemText = resItem.text().trim();
+        }
+      }
+
+      const metaData: MetaData = {
+        label: labItem,
+        value: resItemText,
+      };
+
+      if (labItem.includes(token) || resItemText.includes(token)) {
+        data.push(metaData);
+      }
+    });
+
+    console.log('on meta=====', data);
+    return data[0] ? data[0] : null;
+  }
+
   getMovieGenres(): string[] {
     let movieGenres = new Array<string>();
-    this.doc('.m-genres  .val a').each((index, element) => {
-      let genre = this.doc(element).html();
-      movieGenres.push(genre);
+    let genres = this.getMetaFromAllMetaData('ژانر');
+    let genreArray = genres.value.split(',');
+    genreArray.forEach((e) => {
+      movieGenres.push(e);
     });
+    console.log(movieGenres);
+
     return movieGenres;
   }
 

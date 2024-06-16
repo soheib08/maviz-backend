@@ -48,6 +48,7 @@ export class JobsService {
   async startMovieJob(site: string) {
     let foundSite = await this.getSiteData(site);
     this.logger.log('start crawling movies...');
+    console.log(foundSite);
 
     const foundMovieLinks = await this.getMovieUrls(foundSite['_id']);
     console.log('links to process:', foundMovieLinks.length);
