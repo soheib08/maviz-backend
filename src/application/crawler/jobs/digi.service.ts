@@ -26,9 +26,9 @@ export class DigiJobsService {
   //   this.jobService.startSiteIndexJob(DigiSiteName, DigiBaseUrl, this.headers);
   // }
 
-  @Cron(CronExpression.EVERY_5_SECONDS)
-  async getMoviesDataJob() {
-    this.logger.debug('start crawl from movie urls from zarfilm.com ...');
-    this.jobService.startMovieJob(DigiSiteName);
-  }
+  // @Cron(CronExpression.EVERY_5_SECONDS)
+  // async getMoviesDataJob() {
+  //   this.logger.debug('start crawl from movie urls from zarfilm.com ...');
+  //   this.jobService.startMovieJob(DigiSiteName);
+  // }
 }
