@@ -1,5 +1,5 @@
 import { RawMovie } from 'src/data/schemas/crawler/raw-movie.schema';
-import { IGenericRepository } from '../generic-repository';
+import { IGenericRepository } from '../repository/generic-repository';
 
 export interface IRawMovieRepository extends IGenericRepository<RawMovie> {
   findOne(id: string): Promise<RawMovie>;

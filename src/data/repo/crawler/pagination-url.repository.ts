@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IPaginationUrlRepository } from 'src/core/interfaces/repository/crawler/IPaginationUrl-repository';
+import { IPaginationUrlRepository } from 'src/core/interfaces/crawler/IPaginationUrl-repository';
 import { PaginationUrl } from 'src/data/schemas/crawler/pagination-url.schema';
 
 @Injectable()

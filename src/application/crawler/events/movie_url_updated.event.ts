@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { IMovieUrlRepository } from 'src/core/interfaces/repository/crawler/IMovieUrl-repository';
+import { IMovieUrlRepository } from 'src/core/interfaces/crawler/IMovieUrl-repository';
 
 export class MovieUrlUpdatedEvent {
   constructor(public movieUrl: string) {}

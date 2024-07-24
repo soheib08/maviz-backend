@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateSiteDto } from 'src/core/dto/create-site.dto';
-import { ISiteRepository } from 'src/core/interfaces/repository/crawler/ISite-repository';
+import { ISiteRepository } from 'src/core/interfaces/crawler/ISite-repository';
 import { Site } from 'src/data/schemas/crawler/site.schema';
 
 @Injectable()

@@ -1,11 +1,11 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectBot } from 'nestjs-telegraf';
-import { UserService } from 'src/service/users/user.service';
 import { Context, Markup, Telegraf } from 'telegraf';
 import { SearchService } from '../movie/search.service';
 import { HttpService } from '@nestjs/axios';
 import { DownloadMovieDto } from './dto/movie.dto';
-//ss
+import { UserService } from '../user/user.service';
+
 @Injectable()
 export class TelegramBotService implements OnModuleInit {
   constructor(

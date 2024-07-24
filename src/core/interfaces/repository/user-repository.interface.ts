@@ -1,4 +1,4 @@
-import { User } from 'src/data/schemas/user.schema';
+import { User } from 'src/core/models/user';
 import { IGenericRepository } from './generic-repository';
 
 export interface IUserRepository extends IGenericRepository<User> {

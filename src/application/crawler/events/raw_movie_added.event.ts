@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { MovieService } from 'src/application/movie/movie.service';
-import { IRawMovieRepository } from 'src/core/interfaces/repository/crawler/IRawMovie-repository';
+import { IRawMovieRepository } from 'src/core/interfaces/crawler/IRawMovie-repository';
 import { IMovieRepository } from 'src/core/interfaces/repository/IMovie-repository';
 import { RawMovie } from 'src/core/models/crawler/raw-movie';
 

@@ -1,5 +1,5 @@
 import { load, CheerioAPI } from 'cheerio';
-import { IDataExtractor } from 'src/core/interfaces/data-extractor.interface';
+import { IDataExtractor } from 'src/core/interfaces/crawler/data-extractor.interface';
 
 export class F2MDataExtractor implements IDataExtractor {
   doc: CheerioAPI;

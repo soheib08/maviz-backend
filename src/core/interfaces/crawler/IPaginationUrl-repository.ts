@@ -1,5 +1,5 @@
 import { PaginationUrl } from 'src/core/models/crawler/pagination-url';
-import { IGenericRepository } from '../generic-repository';
+import { IGenericRepository } from '../repository/generic-repository';
 
 export interface IPaginationUrlRepository
   extends IGenericRepository<PaginationUrl> {

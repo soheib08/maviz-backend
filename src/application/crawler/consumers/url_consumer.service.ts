@@ -3,7 +3,7 @@ import { Job } from 'bull';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PaginationUrlCreatedEvent } from '../events/pagination_url_added.event';
 import { Crawler } from '../services/crawler.service';
-import { IDataExtractor } from 'src/core/interfaces/data-extractor.interface';
+import { IDataExtractor } from 'src/core/interfaces/crawler/data-extractor.interface';
 import { JobsService } from '../services/jobs.service';
 
 @Processor('urlQueue')

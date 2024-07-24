@@ -1,5 +1,5 @@
 import { CheerioAPI } from 'cheerio';
-import { IDataExtractor } from 'src/core/interfaces/data-extractor.interface';
+import { IDataExtractor } from 'src/core/interfaces/crawler/data-extractor.interface';
 import { cheerio } from 'src/service/cheerio';
 
 export class ZarFilmDataExtractor implements IDataExtractor {

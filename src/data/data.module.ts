@@ -13,14 +13,14 @@ import { MovieUrlRepository } from './repo/crawler/movie-url.repository';
 import { MovieRepository } from './repo/movie.repository';
 import { RawMovieRepository } from './repo/crawler/raw-movie.repository';
 import { RawMovie, RawMovieSchema } from './schemas/crawler/raw-movie.schema';
-import { User, UserSchema } from './schemas/user.schema';
+import { UserSchema } from './schemas/user.schema';
 import { UserRepository } from './repo/user.repository';
 import { IUserRepository } from 'src/core/interfaces/repository/user-repository.interface';
 import { IMovieRepository } from 'src/core/interfaces/repository/IMovie-repository';
-import { IRawMovieRepository } from 'src/core/interfaces/repository/crawler/IRawMovie-repository';
-import { IMovieUrlRepository } from 'src/core/interfaces/repository/crawler/IMovieUrl-repository';
-import { IPaginationUrlRepository } from 'src/core/interfaces/repository/crawler/IPaginationUrl-repository';
-import { ISiteRepository } from 'src/core/interfaces/repository/crawler/ISite-repository';
+import { IRawMovieRepository } from 'src/core/interfaces/crawler/IRawMovie-repository';
+import { IMovieUrlRepository } from 'src/core/interfaces/crawler/IMovieUrl-repository';
+import { IPaginationUrlRepository } from 'src/core/interfaces/crawler/IPaginationUrl-repository';
+import { ISiteRepository } from 'src/core/interfaces/crawler/ISite-repository';
 
 @Module({
   imports: [
@@ -31,7 +31,7 @@ import { ISiteRepository } from 'src/core/interfaces/repository/crawler/ISite-re
       { name: MovieUrl.name, schema: MovieUrlSchema },
       { name: Movie.name, schema: MovieSchema },
       { name: RawMovie.name, schema: RawMovieSchema },
-      { name: User.name, schema: UserSchema },
+      { name: 'User', schema: UserSchema },
     ]),
   ],
   providers: [

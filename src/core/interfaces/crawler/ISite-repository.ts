@@ -1,5 +1,5 @@
 import { Site } from 'src/core/models/crawler/site';
-import { IGenericRepository } from '../generic-repository';
+import { IGenericRepository } from '../repository/generic-repository';
 
 export interface ISiteRepository extends IGenericRepository<Site> {
   findOne(id: string): Promise<Site>;

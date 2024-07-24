@@ -3,9 +3,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { PaginationUrl } from 'src/core/models/crawler/pagination-url';
 import { MovieUrl } from 'src/core/models/crawler/movie-url';
-import { ISiteRepository } from 'src/core/interfaces/repository/crawler/ISite-repository';
-import { IPaginationUrlRepository } from 'src/core/interfaces/repository/crawler/IPaginationUrl-repository';
-import { IMovieUrlRepository } from 'src/core/interfaces/repository/crawler/IMovieUrl-repository';
+import { ISiteRepository } from 'src/core/interfaces/crawler/ISite-repository';
+import { IPaginationUrlRepository } from 'src/core/interfaces/crawler/IPaginationUrl-repository';
+import { IMovieUrlRepository } from 'src/core/interfaces/crawler/IMovieUrl-repository';
 
 export class PaginationUrlCreatedEvent {
   constructor(

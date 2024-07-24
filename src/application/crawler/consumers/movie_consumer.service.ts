@@ -3,7 +3,7 @@ import { Job } from 'bull';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Crawler } from '../services/crawler.service';
 import { JobsService } from '../services/jobs.service';
-import { IDataExtractor } from 'src/core/interfaces/data-extractor.interface';
+import { IDataExtractor } from 'src/core/interfaces/crawler/data-extractor.interface';
 import { RawMovieCreatedEvent } from '../events/raw_movie_added.event';
 import { MovieUrlUpdatedEvent } from '../events/movie_url_updated.event';
 

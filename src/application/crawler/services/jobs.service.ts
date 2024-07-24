@@ -3,10 +3,6 @@ import { Queue } from 'bull';
 import { InjectQueue } from '@nestjs/bull';
 import { Site } from 'src/core/models/crawler/site';
 import { PaginationUrl } from 'src/core/models/crawler/pagination-url';
-import { IPaginationUrlRepository } from 'src/core/interfaces/repository/crawler/IPaginationUrl-repository';
-import { IMovieUrlRepository } from 'src/core/interfaces/repository/crawler/IMovieUrl-repository';
-import { ISiteRepository } from 'src/core/interfaces/repository/crawler/ISite-repository';
-import { IDataExtractor } from 'src/core/interfaces/data-extractor.interface';
 import { ZarFilmDataExtractor } from './zarfilm-data-extractor.service';
 import { F2MDataExtractor } from './f2m-data-extractor.service';
 import {
@@ -15,6 +11,9 @@ import {
   ZarFilmSiteName,
 } from '../constants/crawler_constants';
 import { DigiDataExtractor } from './digi-data-extractor.service';
+import { IMovieUrlRepository } from 'src/core/interfaces/crawler/IMovieUrl-repository';
+import { IPaginationUrlRepository } from 'src/core/interfaces/crawler/IPaginationUrl-repository';
+import { ISiteRepository } from 'src/core/interfaces/crawler/ISite-repository';
 
 @Injectable()
 export class JobsService {
