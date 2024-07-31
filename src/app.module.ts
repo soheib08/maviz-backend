@@ -6,6 +6,9 @@ import { CrawlerModule } from './application/crawler/crawler.module';
 import { MovieModule } from './application/movie/movie.module';
 import { UserJwtModule } from './service/jwt/jwt.module';
 import { ConfigModule } from '@nestjs/config';
+import { MailModule } from './service/mail/mail.module';
+import SmsModule from './service/message/sms.module';
+import { AuthModule } from './application/auth/auth.module';
 
 @Module({
   imports: [
@@ -20,10 +23,13 @@ import { ConfigModule } from '@nestjs/config';
       },
     }),
     UserJwtModule,
+    MailModule,
+    SmsModule,
     AiModule,
     //TelegramBotModule,
     MovieModule,
     CrawlerModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

@@ -15,7 +15,7 @@ import { RawMovieRepository } from './repo/crawler/raw-movie.repository';
 import { RawMovie, RawMovieSchema } from './schemas/crawler/raw-movie.schema';
 import { UserSchema } from './schemas/user.schema';
 import { UserRepository } from './repo/user.repository';
-import { IUserRepository } from 'src/core/interfaces/repository/user-repository.interface';
+import { IUserRepository } from 'src/core/interfaces/repository/user-repository';
 import { IMovieRepository } from 'src/core/interfaces/repository/IMovie-repository';
 import { IRawMovieRepository } from 'src/core/interfaces/crawler/IRawMovie-repository';
 import { IMovieUrlRepository } from 'src/core/interfaces/crawler/IMovieUrl-repository';

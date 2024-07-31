@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.11.4",
+    "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/axios": "^2.0.0",
     "@nestjs/bull": "^10.1.1",
     "@nestjs/cache-manager": "^1.0.0",

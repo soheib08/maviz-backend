@@ -11,5 +11,8 @@ export interface IUserRepository extends IGenericRepository<User> {
   find(): Promise<User[]>;
 
   deleteOne(id: string): void;
+
+  findOneByEmail(credential: string): Promise<User>;
+  findOneByPhoneNumber(credential: string): Promise<User>;
 }
 export const IUserRepository = Symbol('IUserRepository');

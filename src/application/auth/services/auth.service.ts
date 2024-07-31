@@ -1,21 +1,21 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IUserRepository } from 'src/core/interfaces/repository/user-repository.interface';
+import { IUserRepository } from 'src/core/interfaces/repository/user-repository';
 import { IAuthService } from 'src/core/interfaces/service/auth.service';
-import { ITokenService } from 'src/core/interfaces/service/token.service';
+import { IJwtService } from 'src/core/interfaces/service/jwt.service';
 import { User } from 'src/core/models/user';
 
 @Injectable()
 export class AuthService implements IAuthService {
   constructor(
     @Inject(IUserRepository) private userRepository: IUserRepository,
-    @Inject(ITokenService)
-    private jwtService: ITokenService,
+    @Inject(IJwtService)
+    private jwtService: IJwtService,
   ) {}
 
   async login(user: any) {
     const payload = { userId: user.userId };
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.generateToken(payload),
     };
   }
 
