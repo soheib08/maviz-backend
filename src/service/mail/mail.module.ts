@@ -14,7 +14,7 @@ import { ConfigService } from '@nestjs/config';
           port: 587,
           secure: false, // true for 465, false for other ports
           auth: {
-            user: 'soheibmohammadidev@gmail', // your Gmail address
+            user: 'soheibmohammadidev@gmail ', // your Gmail address
             pass: 'Kaka1374@', // your Gmail app password
           },
         },
