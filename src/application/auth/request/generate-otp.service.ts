@@ -1,17 +1,18 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IUserRepository } from 'src/core/interfaces/repository/user-repository';
 import { GenerateOtpDto } from '../dto/generate-otp.dto';
 import { MailService } from 'src/service/mail/mail.service';
 import SMSService from 'src/service/message/sms.service';
 import authConstants from '../auth.constants';
 import { isEmail, isPhoneNumber } from 'class-validator';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class GenerateOtpService {
   constructor(
-    @Inject(IUserRepository) private userRepository: IUserRepository,
     private emailService: MailService,
     private smsService: SMSService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   async execute(request: GenerateOtpDto) {
@@ -32,6 +33,7 @@ export class GenerateOtpService {
         authConstants.otp_template,
       );
     }
+    await this.cacheManager.set(request.credential, otp, 120000);
   }
 
   private generateOtpCode() {

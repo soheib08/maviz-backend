@@ -6,7 +6,7 @@ export interface IUserRepository extends IGenericRepository<User> {
 
   createOne(entity: User): Promise<User>;
 
-  updateOne(id: string, entity: User): Promise<void>;
+  updateOne(id: string, entity: Partial<User>): Promise<void>;
 
   find(): Promise<User[]>;
 

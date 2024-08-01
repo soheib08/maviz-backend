@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MailModule } from './service/mail/mail.module';
 import SmsModule from './service/message/sms.module';
 import { AuthModule } from './application/auth/auth.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -22,7 +23,6 @@ import { AuthModule } from './application/auth/auth.module';
         port: 6379,
       },
     }),
-    UserJwtModule,
     MailModule,
     SmsModule,
     AiModule,

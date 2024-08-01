@@ -6,9 +6,8 @@ export class User {
   role: Role;
   phone_number: string;
   register_date: Date;
-  constructor(phone_number: string, email: string) {
-    this.email = email;
-    this.phone_number = phone_number;
+  refresh_token: string;
+  constructor() {
     this.role = Role.User;
     this.register_date = new Date();
   }
@@ -19,6 +18,20 @@ export class User {
 
   setRole(role: Role) {
     this.role = role;
+  }
+}
+
+export class UserWithEmailBuilder extends User {
+  constructor(credential: string) {
+    super();
+    this.email = credential;
+  }
+}
+
+export class UserWithPhoneNumberBuilder extends User {
+  constructor(credential: string) {
+    super();
+    this.phone_number = credential;
   }
 }
 

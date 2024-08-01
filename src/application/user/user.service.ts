@@ -1,6 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { IUserRepository } from 'src/core/interfaces/repository/user-repository';
-import { CreateUserDto, UpdateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/create-user.dto';
 import { User } from 'src/core/models/user';
 
 @Injectable()
@@ -9,11 +9,8 @@ export class UserService {
     @Inject(IUserRepository) private userRepository: IUserRepository,
   ) {}
 
-  async createUser(user: CreateUserDto) {
-    let newUser = new User(user.email, user.phone_number);
-
-    await this.userRepository.createOne(newUser);
-
+  async createUser(user: User) {
+    const newUser = await this.userRepository.createOne(user);
     return newUser;
   }
   async getUserProfile(userId: string) {

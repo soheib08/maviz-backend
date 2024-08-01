@@ -1,15 +1,22 @@
-import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
-import { LocalAuthGuard } from './guards/auth.guard';
+import { Controller, Request, Post, Body } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { GenerateOtpDto } from './dto/generate-otp.dto';
 import { ValidateOtpDto } from './dto/validate-otp.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { GenerateOtpService } from './request/generate-otp.service';
+import { AuthService } from './services/auth.service';
+import { ValidateOtpService } from './request/validate-otp.service';
+import { RefreshTokenService } from './request/refresh-token.service';
 
 @Controller('auth')
 @ApiTags('Auth')
 export class AuthController {
-  constructor(private generateOtpRequest: GenerateOtpService) {}
+  constructor(
+    private generateOtpRequest: GenerateOtpService,
+    private validateOtpRequest: ValidateOtpService,
+    private refreshTokenService: RefreshTokenService,
+    private authService: AuthService,
+  ) {}
   @Post('otp/generate')
   @ApiBody({ type: GenerateOtpDto })
   async generateOtp(@Body() body: GenerateOtpDto) {
@@ -18,14 +25,14 @@ export class AuthController {
 
   @Post('otp/validate')
   @ApiBody({ type: ValidateOtpDto })
-  @UseGuards(LocalAuthGuard)
-  async validateOtp(@Request() req) {
-    return req.user;
+  async validateOtp(@Body() body: ValidateOtpDto) {
+    const user = await this.validateOtpRequest.execute(body);
+    return await this.authService.login(user);
   }
 
   @Post('refresh-token')
   @ApiBody({ type: RefreshTokenDto })
-  async refreshToken(@Request() req) {
-    return req.user;
+  async refreshToken(@Body() body: RefreshTokenDto) {
+    return await this.refreshTokenService.execute(body);
   }
 }

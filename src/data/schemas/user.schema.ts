@@ -5,11 +5,19 @@ export type UserDocument = mongoose.HydratedDocument<UserModel>;
 
 @Schema({ id: true, timestamps: true })
 export class UserModel {
-  @Prop()
   id: string;
 
   @Prop()
-  telegramUsername: string;
+  email: string;
+
+  @Prop()
+  phone_number: string;
+
+  @Prop()
+  refresh_token: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);
+UserSchema.virtual('id').get(function () {
+  return this._id.toHexString();
+});

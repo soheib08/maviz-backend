@@ -10,7 +10,9 @@ import { isEmail, isPhoneNumber } from 'class-validator';
 @ValidatorConstraint({ async: false })
 export class IsEmailOrPhoneConstraint implements ValidatorConstraintInterface {
   validate(value: any, args: ValidationArguments) {
-    return isEmail(value) || isPhoneNumber(value);
+    console.log(23, value);
+
+    return isEmail(value) || isPhoneNumber(value, 'IR');
   }
 
   defaultMessage(args: ValidationArguments) {
@@ -19,6 +21,8 @@ export class IsEmailOrPhoneConstraint implements ValidatorConstraintInterface {
 }
 
 export function IsEmailOrPhone(validationOptions?: ValidationOptions) {
+  console.log(2);
+
   return function (object: Object, propertyName: string) {
     registerDecorator({
       target: object.constructor,
@@ -30,6 +34,8 @@ export function IsEmailOrPhone(validationOptions?: ValidationOptions) {
   };
 }
 
-export function isEmailOrPhoneNumber(value?: string) {
-  return isEmail(value) || isPhoneNumber(value);
+export function isEmailOrPhoneNumber(value?: string): 'email' | 'phone' {
+  if (isEmail(value)) return 'email';
+  else if (isPhoneNumber(value, 'IR')) return 'phone';
+  else return;
 }

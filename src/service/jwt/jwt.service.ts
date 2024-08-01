@@ -12,7 +12,7 @@ export class UserJwtService implements IJwtService {
     return payload;
   }
 
-  generateToken(payload: string): string {
-    return this.jwtService.sign({ userId: payload });
+  generateToken(payload: any, expireIn: string): string {
+    return this.jwtService.sign(payload, { expiresIn: expireIn });
   }
 }

@@ -17,20 +17,20 @@ export class UserRepository implements IUserRepository {
     return await this.UserModel.find().lean();
   }
 
-  async findOne(name: string) {
+  async findOne(id: string) {
     return await this.UserModel.findOne({
-      name: name,
+      _id: id,
     });
   }
 
-  async updateOne(id: string, updatedEntityDto: User) {
+  async updateOne(id: string, user: Partial<User>) {
     await this.UserModel.updateOne(
       {
         _id: id,
       },
       {
         $set: {
-          ...updatedEntityDto,
+          ...user,
         },
       },
     );
