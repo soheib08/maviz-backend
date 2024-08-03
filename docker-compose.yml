@@ -8,11 +8,12 @@ services:
       - "3000:3000"
     depends_on:
       - mongodb
-
+    restart: on-failure   
+  
   mongodb:
     image: mongo:6.0
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: soheib
+      MONGO_INITDB_ROOT_PASSWORD: kaka1374
