@@ -10,8 +10,6 @@ import { isEmail, isPhoneNumber } from 'class-validator';
 @ValidatorConstraint({ async: false })
 export class IsEmailOrPhoneConstraint implements ValidatorConstraintInterface {
   validate(value: any, args: ValidationArguments) {
-    console.log(23, value);
-
     return isEmail(value) || isPhoneNumber(value, 'IR');
   }
 

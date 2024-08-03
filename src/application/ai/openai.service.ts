@@ -21,7 +21,7 @@ export class OpenAiService implements OnModuleInit {
   openAiClient: OpenAI;
   private readonly logger = new Logger(OpenAiService.name);
   constructor(private httpService: HttpService) {
-    this.apiKey = 'sk-proj-IbzB5akiSKOnqooewdC3T3BlbkFJTLNR1zJx2zT9GCLGkb08';
+    this.apiKey = '';
     this.openAiClient = new OpenAI({
       apiKey: this.apiKey,
     });

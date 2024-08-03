@@ -25,7 +25,7 @@ import { CacheModule } from '@nestjs/cache-manager';
     }),
     MailModule,
     SmsModule,
-    AiModule,
+    // AiModule,
     //TelegramBotModule,
     MovieModule,
     CrawlerModule,
