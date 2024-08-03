@@ -1,5 +1,4 @@
 import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
-
 import { RawMovie } from 'src/core/models/crawler/raw-movie';
 import { CreateMovieDto } from './dto/movie.dto';
 import { IMovieRepository } from 'src/core/interfaces/repository/IMovie-repository';
