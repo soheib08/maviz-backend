@@ -28,14 +28,14 @@ services:
       mongod --auth --bind_ip_all && # Start MongoDB with authentication
       # Wait for MongoDB to start
       mongosh --eval "while(!db.getMongo().isMaster().ismaster){ sleep(100); }" &&
-      # Create a user with readWrite role
+      # Create a user with dbOwner role
       mongosh --eval "
       db.getSiblingDB(\"movie-crawler\").createUser({
-        user: \"soheib\",
-        pwd: \"kaka1374\",
-        roles: [{ role: \"readWrite\", db: \"movie-crawler\" }]
+        user: \"myuser\",
+        pwd: \"mypassword\",
+        roles: [{ role: \"dbOwner\", db: \"movie-crawler\" }]
       });
-      "'  
+      "'
     volumes:
       - mongo-data:/data/db  
 
