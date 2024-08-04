@@ -21,9 +21,9 @@ import { CacheModule } from '@nestjs/cache-manager';
       redis: {
         host: '127.0.0.1',
         port: 6379,
-        maxRetriesPerRequest: 3,
-        enableTLSForSentinelMode: true,
-        enableReadyCheck: true,
+        enableTLSForSentinelMode: false,
+        maxRetriesPerRequest: null,
+        enableReadyCheck: false,
       },
     }),
     MailModule,
