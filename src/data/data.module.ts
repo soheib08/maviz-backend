@@ -24,7 +24,7 @@ import { ISiteRepository } from 'src/core/interfaces/crawler/ISite-repository';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/movie-crawler'),
+    MongooseModule.forRoot('mongodb://mongodb:27017/movie-crawler'),
     MongooseModule.forFeature([
       { name: Site.name, schema: SiteSchema },
       { name: PaginationUrl.name, schema: PaginationUrlSchema },
