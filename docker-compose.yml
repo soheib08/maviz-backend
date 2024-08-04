@@ -20,8 +20,8 @@ services:
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_ROOT_USERNAME: soheib
+      MONGO_INITDB_ROOT_PASSWORD: kaka1374
       MONGO_INITDB_DATABASE: movie-crawler
     command: >
       bash -c '
@@ -31,8 +31,8 @@ services:
       # Create a user with dbOwner role
       mongosh --eval "
       db.getSiblingDB(\"movie-crawler\").createUser({
-        user: \"myuser\",
-        pwd: \"mypassword\",
+        user: \"soheib\",
+        pwd: \"kaka1374\",
         roles: [{ role: \"dbOwner\", db: \"movie-crawler\" }]
       });
       "'
