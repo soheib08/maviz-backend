@@ -20,6 +20,12 @@ services:
     image: mongo:6.0
     ports:
       - "27017:27017"
+    volumes:
+      - mongo-data:/data/db  
     environment:
       MONGO_INITDB_ROOT_USERNAME: soheib
       MONGO_INITDB_ROOT_PASSWORD: kaka1374
+
+volumes:
+  mongo-data:
+  
