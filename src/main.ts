@@ -25,7 +25,7 @@ async function bootstrap() {
       persistAuthorization: true,
     },
   });
-  await app.listen(process.env.PORT, () => {
+  await app.listen(3000, () => {
     console.log('server started on port', process.env.PORT);
   });
 }
