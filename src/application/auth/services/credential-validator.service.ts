@@ -19,8 +19,6 @@ export class IsEmailOrPhoneConstraint implements ValidatorConstraintInterface {
 }
 
 export function IsEmailOrPhone(validationOptions?: ValidationOptions) {
-  console.log(2);
-
   return function (object: Object, propertyName: string) {
     registerDecorator({
       target: object.constructor,
