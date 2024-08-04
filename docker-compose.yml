@@ -28,9 +28,6 @@ services:
       - app-network
     volumes:
       - mongo-data:/data/db
-      - type: bind
-        source: ./mongo-entrypoint
-        target: /docker-entrypoint-initdb.d/
     healthcheck: 
       test: echo 'db.runCommand({find:"app_db_name.soheib"}).ok' | mongosh --authenticationDatabase admin --host localhost -u soheib -p kaka1374 admin --quiet | grep -q 1
       interval: 10s
