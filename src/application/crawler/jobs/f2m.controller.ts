@@ -8,15 +8,15 @@ export class F2MJobsService {
   private readonly logger = new Logger(F2MJobsService.name);
   constructor(private jobService: JobsService) {}
 
-  // @Cron(CronExpression.EVERY_MINUTE)
-  // async siteIndexJob() {
-  //   this.logger.debug('start crawling f2m...');
-  //   this.jobService.startSiteIndexJob(F2MSiteName, F2MBaseUrl);
-  // }
+  @Cron(CronExpression.EVERY_10_MINUTES)
+  async siteIndexJob() {
+    this.logger.debug('start crawling f2m...');
+    this.jobService.startSiteIndexJob(F2MSiteName, F2MBaseUrl);
+  }
 
-  // @Cron(CronExpression.EVERY_MINUTE)
-  // async getMoviesDataJob() {
-  //   this.logger.debug('start crawl movie_urls from f2m...');
-  //   this.jobService.startMovieJob(F2MSiteName);
-  // }
+  @Cron(CronExpression.EVERY_5_MINUTES)
+  async getMoviesDataJob() {
+    this.logger.debug('start crawl movie_urls from f2m...');
+    this.jobService.startMovieJob(F2MSiteName);
+  }
 }

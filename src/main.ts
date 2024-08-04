@@ -26,7 +26,11 @@ async function bootstrap() {
     },
   });
   await app.listen(3000, () => {
-    console.log('server started on port', process.env.PORT);
+    console.log(
+      'server started on port',
+      process.env.PORT,
+      process.env.MONGODB_URL,
+    );
   });
 }
 bootstrap();

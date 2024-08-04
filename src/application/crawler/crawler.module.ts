@@ -13,9 +13,9 @@ import { UrlQueueConsumer } from './consumers/url_consumer.service';
 import { Crawler } from './services/crawler.service';
 import { JobsService } from './services/jobs.service';
 import { MovieModule } from '../movie/movie.module';
-import { ZarFilmJobsService } from './jobs/zar_film.service';
-import { F2MJobsService } from './jobs/f2m.service';
-import { DigiJobsService } from './jobs/digi.service';
+import { ZarFilmJobsService } from './jobs/zar_film.controller';
+import { F2MJobsService } from './jobs/f2m.controller';
+import { DigiJobsService } from './jobs/digi.controller';
 
 export const eventHandlers = [
   MovieUrlUpdatedEventListener,

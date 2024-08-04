@@ -1,5 +1,6 @@
 import { load, CheerioAPI } from 'cheerio';
 import { IDataExtractor } from 'src/core/interfaces/crawler/data-extractor.interface';
+import * as jalaliMoment from 'jalali-moment';
 
 export class F2MDataExtractor implements IDataExtractor {
   doc: CheerioAPI;
@@ -161,4 +162,44 @@ export class F2MDataExtractor implements IDataExtractor {
 
     return videoLinks;
   }
+
+  getPersianDate(persianDate: string) {
+    const parts = persianDate.split(' ');
+
+    const day = parseInt(parts[0], 10); // Convert day to an integer
+    const monthName = parts[1]; // Persian month name
+    const year = parseInt(parts[2], 10); // Convert year to an integer
+
+    const month = persianMonthMapping[monthName]; // Map month name to number
+
+    const formattedPersianDate = `${year}/${String(month).padStart(
+      2,
+      '0',
+    )}/${String(day).padStart(2, '0')}`;
+
+    const gregorianDate = jalaliMoment(
+      formattedPersianDate,
+      'jYYYY/jMM/jDD',
+    ).format('YYYY-MM-DD');
+
+    return gregorianDate;
+  }
 }
+
+// Define a mapping of Persian month names to their numerical values
+const persianMonthMapping = {
+  فروردین: 1,
+  اردیبهشت: 2,
+  خرداد: 3,
+  تیر: 4,
+  مرداد: 5,
+  شهریور: 6,
+  مهر: 7,
+  آبان: 8,
+  آذر: 9,
+  دی: 10,
+  بهمن: 11,
+  اسفند: 12,
+};
+
+// The Persian date as a string
