@@ -17,7 +17,7 @@ services:
     restart: on-failure   
   
   mongodb:
-    image: mongo:6.0
+    image: mongo
     ports:
       - "27017:27017"
     environment:
@@ -28,12 +28,6 @@ services:
       - app-network
     volumes:
       - mongo-data:/data/db
-    healthcheck: 
-      test: echo 'db.runCommand({find:"app_db_name.soheib"}).ok' | mongosh --authenticationDatabase admin --host localhost -u soheib -p kaka1374 admin --quiet | grep -q 1
-      interval: 10s
-      timeout: 10s
-      retries: 3
-      start_period: 20s  
 
 volumes:
   mongo-data:
