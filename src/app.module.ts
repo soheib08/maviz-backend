@@ -13,10 +13,10 @@ import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
+    DataModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    DataModule,
     BullModule.forRoot({
       redis: {
         host: 'localhost',
