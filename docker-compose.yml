@@ -8,7 +8,7 @@ services:
     depends_on:
       - mongodb
     environment:
-      MONGODB_URL: mongodb://soheib:kaka1374@mongodb:27017/movie-crawler?authSource=movie-admin
+      MONGODB_URL: mongodb://soheib:kaka1374@mongodb:27017/movie-crawler?authSource=admin
       OTP_BASE_URL: https://api.kavenegar.com/v1/6C39694C51414C477561396D656F314379567562717070734B6748676839717672585855424F48766C66593D/verify/lookup.json?
       PORT: 3000
       ACCESS_TOKEN_SECRET: 'secret'  
@@ -28,6 +28,15 @@ services:
       - app-network
     volumes:
       - mongo-data:/data/db
+      - type: bind
+        source: ./mongo-entrypoint
+        target: /docker-entrypoint-initdb.d/
+    healthcheck: 
+      test: echo 'db.runCommand({find:"app_db_name.soheib"}).ok' | mongosh --authenticationDatabase admin --host localhost -u soheib -p kaka1374 admin --quiet | grep -q 1
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 20s  
 
 volumes:
   mongo-data:
