@@ -6,7 +6,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      MONGODB_URL: "mongodb://soheib:kaka1374@localhost:27017/maviz?authSource=admin&directConnection=true"
+      MONGODB_URL: "mongodb://soheib:kaka1374@116.203.155.132:27017/maviz?authSource=admin&directConnection=true"
       OTP_BASE_URL: https://api.kavenegar.com/v1/6C39694C51414C477561396D656F314379567562717070734B6748676839717672585855424F48766C66593D/verify/lookup.json?
       PORT: 3000
       ACCESS_TOKEN_SECRET: 'secret'  
