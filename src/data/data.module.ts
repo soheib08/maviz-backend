@@ -25,7 +25,7 @@ import { ISiteRepository } from 'src/core/interfaces/crawler/ISite-repository';
 @Module({
   imports: [
     MongooseModule.forRoot(
-      'mongodb://soheib:kaka1374@mongodb:27017/movie-crawler?authSource=admin',
+      'mongodb://soheib:kaka1374@mongodb:27017/movie-crawler?authSource=movie-crawler',
     ),
     MongooseModule.forFeature([
       { name: Site.name, schema: SiteSchema },

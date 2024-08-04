@@ -8,11 +8,12 @@ services:
     depends_on:
       - mongodb
     environment:
-      MONGODB_URL: mongodb://soheib:kaka1374@mongodb:27017/movie-crawler?authSource=admin
+      MONGODB_URL: mongodb://soheib:kaka1374@mongodb:27017/movie-crawler?authSource=movie-crawler
       OTP_BASE_URL: https://api.kavenegar.com/v1/6C39694C51414C477561396D656F314379567562717070734B6748676839717672585855424F48766C66593D/verify/lookup.json?
-      PORT: 458
+      PORT: 3000
       ACCESS_TOKEN_SECRET: 'secret'  
-
+    networks:
+      - app-network
     restart: on-failure   
   
   mongodb:
@@ -20,8 +21,8 @@ services:
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: soheib
-      MONGO_INITDB_ROOT_PASSWORD: kaka1374
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpasword
       MONGO_INITDB_DATABASE: movie-crawler
     command: >
       bash -c '
@@ -36,9 +37,14 @@ services:
         roles: [{ role: \"dbOwner\", db: \"movie-crawler\" }]
       });
       "'
+    networks:
+      - app-network
     volumes:
-      - mongo-data:/data/db  
+      - mongo-data:/data/db
 
 volumes:
   mongo-data:
   
+networks:
+  app-network:
+    driver: bridge  
