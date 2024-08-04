@@ -1,4 +1,3 @@
-version: '3'
 services:
   app:
     build:
@@ -9,7 +8,7 @@ services:
     depends_on:
       - mongodb
     environment:
-      MONGO_URI: mongodb://soheib:kaka1374@mongodb:27017/movie-crawler?authSource=admin
+      MONGODB_URL: mongodb://soheib:kaka1374@mongodb:27017/movie-crawler?authSource=admin
       OTP_BASE_URL: https://api.kavenegar.com/v1/6C39694C51414C477561396D656F314379567562717070734B6748676839717672585855424F48766C66593D/verify/lookup.json?
       PORT: 458
       ACCESS_TOKEN_SECRET: 'secret'  
@@ -20,6 +19,23 @@ services:
     image: mongo:6.0
     ports:
       - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: movie-crawler
+    command: >
+      bash -c '
+      mongod --auth --bind_ip_all && # Start MongoDB with authentication
+      # Wait for MongoDB to start
+      mongosh --eval "while(!db.getMongo().isMaster().ismaster){ sleep(100); }" &&
+      # Create a user with readWrite role
+      mongosh --eval "
+      db.getSiblingDB(\"movie-crawler\").createUser({
+        user: \"soheib\",
+        pwd: \"kaka1374\",
+        roles: [{ role: \"readWrite\", db: \"movie-crawler\" }]
+      });
+      "'  
     volumes:
       - mongo-data:/data/db  
 
