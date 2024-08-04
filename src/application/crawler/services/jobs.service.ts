@@ -29,13 +29,12 @@ export class JobsService {
   ) {}
 
   async startSiteIndexJob(site: string, url: string, headers: any = null) {
-    this.logger.log('start crawling site...');
+    this.logger.log('start crawling site...', new Date());
 
     let foundSite = await this.getSiteData(site, url);
     let paginationUrlsToProcess = await this.getPaginationUrls(
       foundSite['_id'],
     );
-
     console.log('pagination urls to process', paginationUrlsToProcess.length);
 
     paginationUrlsToProcess = paginationUrlsToProcess.slice(0, 20);
@@ -47,10 +46,9 @@ export class JobsService {
   async startMovieJob(site: string) {
     let foundSite = await this.getSiteData(site);
     this.logger.log('start crawling movies...');
-    console.log(foundSite);
 
     const foundMovieLinks = await this.getMovieUrls(foundSite['_id']);
-    console.log('links to process:', foundMovieLinks.length);
+    console.log(foundSite.name, 'links to process:', foundMovieLinks.length);
 
     foundMovieLinks.forEach((element) => {
       this.addMovieToQueue(
