@@ -22,6 +22,8 @@ import { CacheModule } from '@nestjs/cache-manager';
         host: '127.0.0.1',
         port: 6379,
         maxRetriesPerRequest: 3,
+        enableTLSForSentinelMode: true,
+        enableReadyCheck: true,
       },
     }),
     MailModule,
