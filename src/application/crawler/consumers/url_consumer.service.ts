@@ -1,4 +1,4 @@
-import { Process, Processor } from '@nestjs/bull';
+import { OnQueueError, OnQueueEvent, Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PaginationUrlCreatedEvent } from '../events/pagination_url_added.event';
@@ -13,6 +13,12 @@ export class UrlQueueConsumer {
     private eventEmitter: EventEmitter2,
     private jobService: JobsService,
   ) {}
+
+  @OnQueueError()
+  handleQueueError(error: Error) {
+    console.error('Queue Error:', error);
+  }
+
   @Process('processUrl')
   async extractPaginationUrlData(job: Job<unknown>) {
     const data = job.data as {

@@ -84,7 +84,7 @@ export class JobsService {
     headers: any,
   ) {
     console.log(paginationUrl, 'going to add queue');
-    console.log(11, this.urlQueue.client.status);
+    console.log(this.urlQueue.client.status);
 
     await this.urlQueue.add('processUrl', {
       url: paginationUrl,
