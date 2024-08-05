@@ -8,7 +8,7 @@ export class F2MJobsService {
   private readonly logger = new Logger(F2MJobsService.name);
   constructor(private jobService: JobsService) {}
 
-  @Cron(CronExpression.EVERY_10_MINUTES)
+  @Cron(CronExpression.EVERY_MINUTE)
   async siteIndexJob() {
     this.jobService.startSiteIndexJob(F2MSiteName, F2MBaseUrl);
   }
