@@ -10,6 +10,7 @@ import { MailModule } from './service/mail/mail.module';
 import SmsModule from './service/message/sms.module';
 import { AuthModule } from './application/auth/auth.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { RedisModule } from '@liaoliaots/nestjs-redis';
 
 @Module({
   imports: [
@@ -21,13 +22,20 @@ import { CacheModule } from '@nestjs/cache-manager';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         redis: {
-          host: '116.203.155.132',
+          host: 'localhost',
         },
       }),
       inject: [ConfigService],
     }),
     MailModule,
     SmsModule,
+    RedisModule.forRoot({
+      config: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
+
     // AiModule,
     //TelegramBotModule,
     MovieModule,
