@@ -20,6 +20,9 @@ export class UrlQueueConsumer {
       site: string;
       headers: any;
     };
+
+    console.log('here on job');
+
     try {
       const dataExtractor: IDataExtractor = this.jobService.getDataExtractor(
         data.site,

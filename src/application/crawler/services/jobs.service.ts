@@ -83,6 +83,8 @@ export class JobsService {
     site: string,
     headers: any,
   ) {
+    console.log(paginationUrl);
+
     await this.urlQueue.add('processUrl', {
       url: paginationUrl,
       site,
