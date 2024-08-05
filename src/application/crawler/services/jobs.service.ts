@@ -83,7 +83,7 @@ export class JobsService {
     site: string,
     headers: any,
   ) {
-    console.log(paginationUrl);
+    console.log(paginationUrl, 'going to add queue');
 
     await this.urlQueue.add('processUrl', {
       url: paginationUrl,

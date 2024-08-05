@@ -19,7 +19,7 @@ import { CacheModule } from '@nestjs/cache-manager';
     }),
     BullModule.forRoot({
       redis: {
-        host: '127.0.0.1',
+        host: 'redis://127.0.0.1',
         port: 6379,
         enableTLSForSentinelMode: false,
         maxRetriesPerRequest: null,
