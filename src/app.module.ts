@@ -5,7 +5,7 @@ import { BullModule } from '@nestjs/bull';
 import { CrawlerModule } from './application/crawler/crawler.module';
 import { MovieModule } from './application/movie/movie.module';
 import { UserJwtModule } from './service/jwt/jwt.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MailModule } from './service/mail/mail.module';
 import SmsModule from './service/message/sms.module';
 import { AuthModule } from './application/auth/auth.module';
@@ -17,14 +17,14 @@ import { CacheModule } from '@nestjs/cache-manager';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    BullModule.forRoot({
-      redis: {
-        host: '127.0.0.1',
-        port: 6379,
-        enableTLSForSentinelMode: false,
-        maxRetriesPerRequest: null,
-        enableReadyCheck: false,
-      },
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        redis: {
+          host: 'localhost',
+        },
+      }),
+      inject: [ConfigService],
     }),
     MailModule,
     SmsModule,
