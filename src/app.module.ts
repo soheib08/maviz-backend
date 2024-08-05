@@ -21,7 +21,7 @@ import { CacheModule } from '@nestjs/cache-manager';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         redis: {
-          host: 'localhost',
+          host: '116.203.155.132',
         },
       }),
       inject: [ConfigService],
