@@ -32,6 +32,8 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
     RedisModule.forRoot({
       config: {
         url: 'redis://localhost:6380',
+        host: 'localhost',
+        port: 6380,
       },
     }),
 
