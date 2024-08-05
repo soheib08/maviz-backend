@@ -31,8 +31,7 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
     SmsModule,
     RedisModule.forRoot({
       config: {
-        host: '127.0.0.1',
-        port: 6379,
+        url: 'redis://localhost:6379',
       },
     }),
 
