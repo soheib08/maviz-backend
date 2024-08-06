@@ -18,27 +18,11 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    // BullModule.forRootAsync({
-    //   imports: [ConfigModule],
-    //   useFactory: async (configService: ConfigService) => ({
-    //     redis: {
-    //       host: 'localhost',
-    //     },
-    //   }),
-    //   inject: [ConfigService],
-    // }),
     MailModule,
     SmsModule,
-    RedisModule.forRoot({
-      config: {
-        url: 'redis://redis:6380',
-        host: 'localhost',
-        port: 6380,
-      },
+    CacheModule.register({
+      isGlobal: true,
     }),
-
-    // AiModule,
-    //TelegramBotModule,
     MovieModule,
     CrawlerModule,
     AuthModule,
