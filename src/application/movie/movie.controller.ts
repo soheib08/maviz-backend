@@ -17,6 +17,6 @@ export class MoviesController {
       });
     });
 
-    return res;
+    return res.length;
   }
 }
