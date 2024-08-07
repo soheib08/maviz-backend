@@ -26,15 +26,13 @@ export class PaginationUrlCreatedListener {
   ) {}
   @OnEvent('paginationUrl.created')
   async handleOrderCreatedEvent(event: PaginationUrlCreatedEvent) {
-    console.log('on create pg url event', event.paginationUrls.length);
+    console.log('step: events');
 
     for await (const paginationItem of event.paginationUrls) {
       let foundPaginationUrl = await this.paginationUrlRepository.findOne(
         paginationItem,
       );
       if (!foundPaginationUrl) {
-        console.log('create pagination url');
-
         let foundSite = await this.siteRepository.findOne(event.site);
         let newUrl = new PaginationUrl(paginationItem, foundSite['_id'], true);
         console.log('pagination url added: ', newUrl.url);
@@ -43,23 +41,17 @@ export class PaginationUrlCreatedListener {
         );
       }
     }
-
-    console.log('after saveing pgs', event.movieUrls.length);
-
     for await (const movieUrlItem of event.movieUrls) {
       const isUrlExists = await this.movieUrlRepository.findOne(
         movieUrlItem.url,
       );
-      console.log('on loop', movieUrlItem);
-
       const foundPaginationUrl = await this.paginationUrlRepository.findOne(
         movieUrlItem.pagination_url,
       );
       if (!isUrlExists) {
-        const movieUrl = await this.movieUrlRepository.createOne(
+        await this.movieUrlRepository.createOne(
           new MovieUrl(movieUrlItem.url, foundPaginationUrl['_id']),
         );
-        console.log('movie url added: ', movieUrl.url);
       }
     }
     await this.paginationUrlRepository.updateOne(
@@ -68,6 +60,5 @@ export class PaginationUrlCreatedListener {
         is_visited: true,
       },
     );
-    console.log('pagination url updated: ', event.movieUrls[0].pagination_url);
   }
 }

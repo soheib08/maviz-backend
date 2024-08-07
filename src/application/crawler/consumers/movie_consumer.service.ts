@@ -29,7 +29,7 @@ export class MovieQueueConsumer {
     const rawMovie = await this.Crawler.crawlMovieUrl(data.url, dataExtractor);
     rawMovie.base_url = data.movie_url;
     rawMovie.site = data.site_id;
-    console.log(rawMovie);
+    console.log(rawMovie.name, 'steps: consumers rawMovie created');
 
     this.eventEmitter.emit(
       'rawMovie.created',

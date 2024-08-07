@@ -17,6 +17,6 @@ export class MovieUrlUpdatedEventListener {
     await this.movieUrlRepository.updateOne(event.movieUrl.toString(), {
       is_visited: true,
     });
-    console.log('movieUrl.updated: ', event.movieUrl);
+    console.log('steps: events - movieUrl.updated: ', event.movieUrl);
   }
 }
