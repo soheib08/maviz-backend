@@ -28,6 +28,6 @@ services:
 volumes:
   redis-data:
 
-  networks:
+networks:
   app-network:
     driver: bridge
