@@ -13,7 +13,8 @@ services:
     restart: on-failure   
     networks:
       - app-network
-    depends_on: redis  
+    depends_on: 
+      - redis  
   
   redis:
     image: redis:latest
