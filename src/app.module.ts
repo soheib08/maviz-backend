@@ -20,8 +20,11 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
     }),
     MailModule,
     SmsModule,
-    CacheModule.register({
-      isGlobal: true,
+    BullModule.forRoot({
+      redis: {
+        port: 6379,
+        host: 'redis',
+      },
     }),
     MovieModule,
     CrawlerModule,
